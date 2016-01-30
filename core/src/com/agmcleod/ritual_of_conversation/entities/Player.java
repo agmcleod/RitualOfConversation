@@ -4,6 +4,7 @@ import com.agmcleod.ritual_of_conversation.components.BoundingBoxComponent;
 import com.agmcleod.ritual_of_conversation.components.ComponentMappers;
 import com.agmcleod.ritual_of_conversation.components.PlayerComponent;
 import com.agmcleod.ritual_of_conversation.components.TransformComponent;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 
 /**
@@ -14,7 +15,7 @@ public class Player extends GameEntity {
     private final float WIDTH = 100;
 
     public Player() {
-        TransformComponent transform = new TransformComponent(Gdx.graphics.getWidth() / 2, 0 + HEIGHT / 2, WIDTH, HEIGHT);
+        TransformComponent transform = new TransformComponent(Gdx.graphics.getWidth() / 2, HEIGHT  / 2, WIDTH, HEIGHT);
         add(transform);
         add(new BoundingBoxComponent(WIDTH, HEIGHT));
         add(new PlayerComponent());

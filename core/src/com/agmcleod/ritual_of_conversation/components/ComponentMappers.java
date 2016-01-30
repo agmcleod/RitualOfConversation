@@ -7,6 +7,8 @@ import com.badlogic.ashley.core.ComponentMapper;
  */
 public class ComponentMappers {
     public static final ComponentMapper<TransformComponent> transformable = ComponentMapper.getFor(TransformComponent.class);
+    public static final ComponentMapper<DialogueOptionComponent> dialogueOptions = ComponentMapper.getFor(DialogueOptionComponent.class);
     public static final ComponentMapper<BoundingBoxComponent> collidable = ComponentMapper.getFor(BoundingBoxComponent.class);
+    public static final ComponentMapper<TextContentComponent> textContent = ComponentMapper.getFor(TextContentComponent.class);
     public static final ComponentMapper<PlayerComponent> player = ComponentMapper.getFor(PlayerComponent.class);
 }
