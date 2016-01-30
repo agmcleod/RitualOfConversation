@@ -2,7 +2,9 @@ package com.agmcleod.ritual_of_conversation.screens;
 
 import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.actors.PlayerActor;
+import com.agmcleod.ritual_of_conversation.entities.NpcText;
 import com.agmcleod.ritual_of_conversation.entities.Player;
+import com.agmcleod.ritual_of_conversation.systems.DialogueSystem;
 import com.agmcleod.ritual_of_conversation.systems.MovementSystem;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
@@ -32,13 +34,20 @@ public class PlayScreen implements Screen {
         stage = new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         atlas = new TextureAtlas(Gdx.files.internal("atlas.txt"));
         Gdx.input.setInputProcessor(stage);
-        createPlayer();
+        Player player = new Player();
+        createPlayer(player);
+        createDialogueSystem(player);
 
         engine.addSystem(new MovementSystem());
     }
 
-    public void createPlayer() {
-        Player player = new Player();
+    public void createDialogueSystem(Player player) {
+        NpcText npcText = new NpcText();
+        DialogueSystem dialogueSystem = new DialogueSystem(engine, npcText, player);
+        engine.addSystem(dialogueSystem);
+    }
+
+    public void createPlayer(Player player) {
         PlayerActor playerActor = new PlayerActor(player, atlas);
         stage.setKeyboardFocus(playerActor);
 

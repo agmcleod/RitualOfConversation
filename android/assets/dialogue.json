@@ -1,0 +1,331 @@
+{
+  "1": {
+    "text": "Hey!",
+    "options": [{
+      "text": "Hey",
+      "score": 0,
+      "nextId": "2"
+    }]
+  },
+  "2": {
+    "text": "What's up?",
+    "options": [{
+      "text": "Nothing much, you?",
+      "score": 0,
+      "nextId": "3"
+    }]
+  },
+  "3": {
+    "text": "Not much. Are you okay?",
+    "options": [{
+      "text": "I'm GREAT!",
+      "score": 40,
+      "nextId": "4"
+    }, {
+      "text": "Yeah, why?",
+      "score": 0,
+      "nextId": "5"
+    }]
+  },
+  "4": {
+    "text": "Oh. Happy to hear it.",
+    "options": [{
+      "text": "Why do you ask?",
+      "score": 0,
+      "nextId": "5"
+    }, {
+      "text": "...",
+      "score": 10,
+      "nextId": "5"
+    }]
+  },
+  "5": {
+    "text": "You look a little nervous",
+    "options": [{
+      "text": "Nah, I'm fine.",
+      "score": -10,
+      "nextId": "6"
+    }, {
+      "text": "I don't feel nervous.",
+      "score": 0,
+      "nextId": "6"
+    }, {
+      "text": "I'm really sorry.",
+      "score": 10,
+      "nextId": "6"
+    }]
+  },
+  "6": {
+    "text": "Soo, what have you been up to?",
+    "options": [{
+      "text": "Eat. Sleep. Repeat.",
+      "score": 0,
+      "nextId": "7"
+    }, {
+      "text": "Not a whole lot.",
+      "score": 0,
+      "nextId": "7"
+    }, {
+      "text": "Staring into the void.",
+      "score": 20,
+      "nextId": "7"
+    }, {
+      "text": "Finishing up school.",
+      "score": -10,
+      "nextId": "10"
+    }, {
+      "text": "Hating school.",
+      "score": 0,
+      "nextId": "10"
+    }, {
+      "text": "Crying myself to sleep.",
+      "score": 30,
+      "nextId": "9"
+    }]
+  },
+  "7": {
+    "text": "Doesn't that get boring?",
+    "options": [{
+      "text": "I enjoy it.",
+      "score": 0,
+      "nextId": "8"
+    }, {
+      "text": "...",
+      "score": 10,
+      "nextId": "8"
+    }, {
+      "text": "Nah.",
+      "score": -10,
+      "nextId": "8"
+    }, {
+      "text": "Boredom is a social construct.",
+      "score": 10,
+      "nextId": "8"
+    }]
+  },
+  "8": {
+    "text": "I see. So how is school?",
+    "options": [{
+      "text": "A lot of work.",
+      "score": -10,
+      "nextId": "11"
+    }, {
+      "text": "It's very tiring.",
+      "score": -10,
+      "nextId": "11"
+    }, {
+      "text": "I regret my life choices.",
+      "score": 20,
+      "nextId": "12"
+    }, {
+      "text": "A lot of dispair.",
+      "score": 10,
+      "nextId": "12"
+    }, {
+      "text": "School?",
+      "score": 20,
+      "nextId": "13"
+    }]
+  },
+  "9": {
+    "text": "Oh. Do you want to talk about it?",
+    "options": [{
+      "text": "Nevermind",
+      "score": 0,
+      "nextId": "8"
+    }, {
+      "text": "No.",
+      "score": 0,
+      "nextId": "8"
+    }, {
+      "text": "I didn't mean to say that.",
+      "score": 10,
+      "nextId": "8"
+    }, {
+      "text": "I'm so sorry.",
+      "score": 10,
+      "nextId": "8"
+    }, {
+      "text": "...",
+      "score": 20,
+      "nextId": "8"
+    }]
+  },
+  "10": {
+    "text": "Right! How is that going?",
+    "options": [{
+      "text": "A lot of work",
+      "score": -10,
+      "nextId": "11"
+    }, {
+      "text": "It's very tiring.",
+      "score": -10,
+      "nextId": "11"
+    }, {
+      "text": "I regret my life choices.",
+      "score": 20,
+      "nextId": "12"
+    }, {
+      "text": "A lot of dispair.",
+      "score": 10,
+      "nextId": "12"
+    }, {
+      "text": "How is what going?",
+      "score": 20,
+      "nextId": "13"
+    }, {
+      "text": "I'm sick of it.",
+      "score": 0,
+      "nextId": "12"
+    }]
+  },
+  "11": {
+    "text": "Right? I'm so sick of school."
+  },
+  "12": {
+    "text": "I know what you mean.",
+    "options": [{
+      "text": "Wait, really?",
+      "score": 0,
+      "nextId": "14"
+    }, {
+      "text": "What do you mean?",
+      "score": -10,
+      "nextId": "14"
+    }, {
+      "text": "...",
+      "score": 20,
+      "nextId": "14"
+    }, {
+      "text": "Someone finally understands.",
+      "score": -10,
+      "nextId": "14"
+    }]
+  },
+  "13": {
+    "text": "School.",
+    "options": [{
+      "text": "Oh. It's tiring.",
+      "score": 0,
+      "nextId": "11"
+    }, {
+      "text": "It's a lot of work.",
+      "score": 0,
+      "nextId": "11"
+    }, {
+      "text": "I'm sick of it.",
+      "score": 0,
+      "nextId": "12"
+    }, {
+      "text": "School is hell.",
+      "score": 10,
+      "nextId": "12"
+    }]
+  },
+  "14": {
+    "text": "I'm thinking of dropping out.",
+    "options": [{
+      "text": "Why?",
+      "score": 0,
+      "nextId": "15"
+    }, {
+      "text": "That's a shame.",
+      "score": 0,
+      "nextId": "15"
+    }, {
+      "text": "I'm sorry to hear that.",
+      "score": -10,
+      "nextId": "15"
+    }, {
+      "text": "I don't know what to say.",
+      "score": 0,
+      "nextId": "15"
+    }, {
+      "text": "That was unexpected.",
+      "score": 10,
+      "nextId": "15"
+    }, {
+      "text": ".....",
+      "score": 20,
+      "nextId": "15"
+    }]
+  },
+  "15": {
+    "text": "I'm not cut out for art school.",
+    "options": [{
+      "text": "You're a great artist!",
+      "score": -10,
+      "nextId": "16"
+    }, {
+      "text": "That's not true.",
+      "score": -10,
+      "nextId": "16"
+    }, {
+      "text": "Stop lying to yourself.",
+      "score": 0,
+      "nextId": "16"
+    }, {
+      "text": "Your stuff isn't THAT bad.",
+      "score": 10,
+      "nextId": "18"
+    }, {
+      "text": "My art is worse than yours.",
+      "score": 0,
+      "nextId": "18"
+    }, {
+      "text": "Art school is dumb, anyways.",
+      "score": 10,
+      "nextId": "19"
+    }]
+  },
+  "16": {
+    "text": "Everyone else is more talented.",
+    "options": [{
+      "text": "You made it this far.",
+      "score": -10,
+      "nextId": "17"
+    }, {
+      "text": "Ignore everyone else.",
+      "score": 0,
+      "nextId": "17"
+    }, {
+      "text": "Everyone else sucks.",
+      "score": 0,
+      "nextId": "17"
+    }, {
+      "text": "Art is subjective.",
+      "score": 0,
+      "nextId": "18"
+    }, {
+      "text": "Talent is a social construct.",
+      "score": 10,
+      "nextId": "18"
+    }, {
+      "text": "Stupid school accepts anyone",
+      "score": 10,
+      "nextId": "19"
+    }]
+  },
+  "18": {
+    "text": "Thanks, I guess."
+  },
+  "19": {
+    "text": "That doesn't make me feel better.",
+    "options": [{
+      "text": "Sorry.",
+      "score": 0
+    }, {
+      "text": "I'm really sorry.",
+      "score": 0
+    }, {
+      "text": "I'm bad at this.",
+      "score": 0
+    }, {
+      "text": ".....",
+      "score": 0
+    }, {
+      "text": "It didn't?",
+      "score": 0
+    }]
+  }
+}
