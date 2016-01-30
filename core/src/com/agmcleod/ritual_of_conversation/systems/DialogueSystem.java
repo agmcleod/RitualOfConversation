@@ -66,7 +66,7 @@ public class DialogueSystem extends EntitySystem {
             e.printStackTrace();
         }
 
-        System.out.println(dialogues.get(currentId).options.length);
+        startDialogue();
     }
 
     @Override
@@ -80,7 +80,10 @@ public class DialogueSystem extends EntitySystem {
     }
 
     private void startDialogue() {
-
+        if (dialogues.containsKey(currentId)) {
+            DialogueContent content = dialogues.get(currentId);
+            npcText.getTextContentComponent().text = content.text;
+        }
     }
 
     private void setEntities(Engine engine) {

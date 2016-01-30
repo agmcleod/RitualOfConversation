@@ -7,8 +7,8 @@ import com.agmcleod.ritual_of_conversation.components.TextContentComponent;
 /**
  * Created by aaronmcleod on 2016-01-29.
  */
-public class DialogueOption extends GameEntity {
-    public DialogueOption() {
+public class DialogueOptionBubble extends GameEntity {
+    public DialogueOptionBubble() {
         add(new TextContentComponent());
         add(new DialogueOptionComponent());
     }

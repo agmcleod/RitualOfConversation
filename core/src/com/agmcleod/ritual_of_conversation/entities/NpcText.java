@@ -9,9 +9,9 @@ import com.badlogic.gdx.Gdx;
  * Created by aaronmcleod on 2016-01-29.
  */
 public class NpcText extends GameEntity {
-    private final float HEIGHT = 50;
+    private final float HEIGHT = 24;
     public NpcText() {
-        add(new TransformComponent(30, Gdx.graphics.getHeight() - HEIGHT, Gdx.graphics.getWidth(), HEIGHT));
+        add(new TransformComponent(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight(), Gdx.graphics.getWidth() - 50, HEIGHT));
         add(new TextContentComponent());
     }
 

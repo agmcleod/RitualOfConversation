@@ -2,16 +2,23 @@ atlas.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+background
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: -1
 player
   rotate: false
-  xy: 304, 2
+  xy: 2, 646
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 speech
   rotate: false
-  xy: 2, 2
+  xy: 2, 544
   size: 300, 100
   orig: 300, 100
   offset: 0, 0

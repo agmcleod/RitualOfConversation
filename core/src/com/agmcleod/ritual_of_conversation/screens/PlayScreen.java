@@ -1,6 +1,8 @@
 package com.agmcleod.ritual_of_conversation.screens;
 
 import com.agmcleod.ritual_of_conversation.RitualOfConversation;
+import com.agmcleod.ritual_of_conversation.actors.BackgroundActor;
+import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
 import com.agmcleod.ritual_of_conversation.actors.PlayerActor;
 import com.agmcleod.ritual_of_conversation.entities.NpcText;
 import com.agmcleod.ritual_of_conversation.entities.Player;
@@ -10,6 +12,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
@@ -19,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
  * Created by aaronmcleod on 2016-01-29.
  */
 public class PlayScreen implements Screen {
+    private BitmapFont dialogueFont;
     private Engine engine;
     private RitualOfConversation game;
     private Stage stage;
@@ -33,8 +37,10 @@ public class PlayScreen implements Screen {
         engine = new Engine();
         stage = new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         atlas = new TextureAtlas(Gdx.files.internal("atlas.txt"));
+        dialogueFont = new BitmapFont(Gdx.files.internal("munro24.fnt"));
         Gdx.input.setInputProcessor(stage);
         Player player = new Player();
+        stage.addActor(new BackgroundActor(atlas));
         createPlayer(player);
         createDialogueSystem(player);
 
@@ -45,6 +51,8 @@ public class PlayScreen implements Screen {
         NpcText npcText = new NpcText();
         DialogueSystem dialogueSystem = new DialogueSystem(engine, npcText, player);
         engine.addSystem(dialogueSystem);
+        NpcTextActor npcTextActor = new NpcTextActor(dialogueFont, npcText);
+        stage.addActor(npcTextActor);
     }
 
     public void createPlayer(Player player) {
@@ -93,5 +101,6 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         atlas.dispose();
+        dialogueFont.dispose();
     }
 }
