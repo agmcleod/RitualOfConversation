@@ -3,12 +3,12 @@ package com.agmcleod.ritual_of_conversation.screens;
 import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.actors.PlayerActor;
 import com.agmcleod.ritual_of_conversation.entities.Player;
+import com.agmcleod.ritual_of_conversation.systems.MovementSystem;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -31,13 +31,16 @@ public class PlayScreen implements Screen {
         engine = new Engine();
         stage = new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         atlas = new TextureAtlas(Gdx.files.internal("atlas.txt"));
-
+        Gdx.input.setInputProcessor(stage);
         createPlayer();
+
+        engine.addSystem(new MovementSystem());
     }
 
     public void createPlayer() {
         Player player = new Player();
         PlayerActor playerActor = new PlayerActor(player, atlas);
+        stage.setKeyboardFocus(playerActor);
 
         engine.addEntity(player);
         stage.addActor(playerActor);
@@ -55,6 +58,7 @@ public class PlayScreen implements Screen {
     }
 
     public void update(float dt) {
+        engine.update(dt);
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 /**
  * Created by aaronmcleod on 2016-01-29.
@@ -16,9 +18,21 @@ public class PlayerActor extends Actor {
     private Player player;
     private TextureRegion region;
 
-    public PlayerActor(Player player, TextureAtlas textureAtlas) {
+    public PlayerActor(final Player player, TextureAtlas textureAtlas) {
         this.player = player;
         region = textureAtlas.findRegion("player");
+
+        this.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                return player.setInputKeyState(keycode, true);
+            }
+
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                return player.setInputKeyState(keycode, false);
+            }
+        });
     }
 
     @Override
