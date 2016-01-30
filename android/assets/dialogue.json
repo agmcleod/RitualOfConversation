@@ -115,7 +115,7 @@
       "nextId": "11"
     }, {
       "text": "I regret my life choices.",
-      "score": 20,
+      "score": 10,
       "nextId": "12"
     }, {
       "text": "A lot of dispair.",
@@ -130,11 +130,11 @@
   "9": {
     "text": "Oh. Do you want to talk about it?",
     "options": [{
-      "text": "Nevermind",
+      "text": "Nevermind.",
       "score": 0,
       "nextId": "8"
     }, {
-      "text": "No.",
+      "text": "Not really.",
       "score": 0,
       "nextId": "8"
     }, {
@@ -180,7 +180,16 @@
     }]
   },
   "11": {
-    "text": "Right? I'm so sick of school."
+    "text": "Right? I'm so sick of school.",
+    "options": [{
+      "text": "It's really got me down.",
+      "score": 0,
+      "nextId": "12"
+    }, {
+      "text": "I hate everything.",
+      "score": 10,
+      "nextId": "12"
+    }]
   },
   "12": {
     "text": "I know what you mean.",
@@ -198,7 +207,7 @@
       "nextId": "14"
     }, {
       "text": "Someone finally understands.",
-      "score": -10,
+      "score": 0,
       "nextId": "14"
     }]
   },
@@ -230,7 +239,7 @@
       "nextId": "15"
     }, {
       "text": "That's a shame.",
-      "score": 0,
+      "score": 10,
       "nextId": "15"
     }, {
       "text": "I'm sorry to hear that.",
@@ -301,30 +310,334 @@
       "score": 10,
       "nextId": "18"
     }, {
-      "text": "Stupid school accepts anyone",
+      "text": "Stupid school accepts anyone.",
       "score": 10,
       "nextId": "19"
     }]
   },
+  "17": {
+    "text": "I don't know what to do...",
+    "options": [{
+      "text": "I believe in you!",
+      "score": -10,
+      "nextId": "20"
+    }, {
+      "text": "You can do it!",
+      "score": -10,
+      "nextId": "20"
+    }, {
+      "text": "Accept the eventual defeat.",
+      "score": 10,
+      "nextId": "24"
+    }, {
+      "text": "There's no money in art.",
+      "score": 0,
+      "nextId": "27"
+    }, {
+      "text": "I don't know what to say.",
+      "score": 0,
+      "nextId": "31"
+    }, {
+      "text": "I can't decide for you.",
+      "score": 0,
+      "nextId": "31"
+    }, {
+      "text": "Art school is easy, though.",
+      "score": 10,
+      "nextId": "27"
+    }]
+  },
   "18": {
-    "text": "Thanks, I guess."
+    "text": "Thanks, I guess.",
+    "options": [{
+      "text": "Sorry if this is awkward.",
+      "score": 0,
+      "nextId": "17"
+    }, {
+      "text": "You're welcome.",
+      "score": 10,
+      "nextId": "17"
+    }, {
+      "text": "What will you do?",
+      "score": -10,
+      "nextId": "17"
+    }, {
+      "text": "What's the plan?",
+      "score": 0,
+      "nextId": "17"
+    }, {
+      "text": ".....",
+      "score": 20,
+      "nextId": "17"
+    }]
   },
   "19": {
     "text": "That doesn't make me feel better.",
     "options": [{
       "text": "Sorry.",
-      "score": 0
+      "score": -10,
+      "nextId": "17"
     }, {
       "text": "I'm really sorry.",
-      "score": 0
+      "score": -10,
+      "nextId": "17"
     }, {
       "text": "I'm bad at this.",
+      "score": 0,
+      "nextId": "17"
+    }, {
+      "text": ".....",
+      "score": 20,
+      "nextId": "17"
+    }, {
+      "text": "It didn't?",
+      "score": 30,
+      "nextId": "17"
+    }]
+  },
+  "20": {
+    "text": "... you think so?",
+    "options": [{
+      "text": "Definitely!",
+      "score": -10,
+      "nextId": "21"
+    }, {
+      "text": "I guess.",
+      "score": 0,
+      "nextId": "21"
+    }, {
+      "text": "I'm just comforting you.",
+      "score": 10,
+      "nextId": "24"
+    }, {
+      "text": "Yes?",
+      "score": 10,
+      "nextId": "21"
+    }, {
+      "text": "I dunno.",
+      "score": 0,
+      "nextId": "24"
+    }]
+  },
+  "21": {
+    "text": "But what if I fail?",
+    "options": [{
+      "text": "Then try again.",
+      "score": 0,
+      "nextId": "22"
+    }, {
+      "text": "You won't.",
+      "score": -10,
+      "nextId": "22"
+    }, {
+      "text": "Then you've failed.",
+      "score": 0,
+      "nextId": "27"
+    }, {
+      "text": "Everything fails eventually.",
+      "score": 10,
+      "nextId": "27"
+    }, {
+      "text": "Someone will fail even worse.",
+      "score": 0,
+      "nextId": "27"
+    }, {
+      "text": ".......",
+      "score": 20,
+      "nextId": "27"
+    }]
+  },
+  "22": {
+    "text": "You really think I can do it?",
+    "options": [{
+      "text": "Yes.",
+      "score": -90,
+      "nextId": "23"
+    }, {
+      "text": "Maybe.",
+      "score": 0,
+      "nextId": "24"
+    }, {
+      "text": "I'm not sure.",
+      "score": 0,
+      "nextId": "24"
+    }, {
+      "text": "In the end, it doesn't even matter.",
+      "score": 20,
+      "nextId": "24"
+    }]
+  },
+  "23": {
+    "text": "Thank you, that really helps.",
+    "options": [{
+      "text": "You're welcome.",
+      "score": 0,
+      "nextId": "26"
+    }, {
+      "text": "Happy to help.",
+      "score": 0,
+      "nextId": "26"
+    }, {
+      "text": "Yep.",
+      "score": 10,
+      "nextId": "26"
+    }, {
+      "text": "...",
+      "score": 20,
+      "nextId": "25"
+    }]
+  },
+  "24": {
+    "text": "Oh... well, thanks anyways.",
+    "options": [{
+      "text": "You're welcome.",
+      "score": 20,
+      "nextId": "25"
+    }, {
+      "text": "Sorry, I didn't mean that.",
+      "score": 0,
+      "nextId": "28"
+    }, {
+      "text": "Ignore what I said.",
+      "score": 0,
+      "nextId": "28"
+    }, {
+      "text": ".......",
+      "score": 20,
+      "nextId": "25"
+    }]
+  },
+  "25": {
+    "text": "Listen... I'm gonna go. See you.",
+    "options": [{
+      "text": "See you.",
       "score": 0
     }, {
       "text": ".....",
+      "score": 20
+    }]
+  },
+  "26": {
+    "text": "I'm gonna go, thanks again.",
+    "options": [{
+      "text": "See you!",
       "score": 0
     }, {
-      "text": "It didn't?",
+      "text": "...",
+      "score": 20
+    }]
+  },
+  "27": {
+    "text": "That's one way of putting it.",
+    "options": [{
+      "text": "It's the truth.",
+      "score": 10,
+      "nextId": "24"
+    }, {
+      "text": "Sorry, I didn't mean that.",
+      "score": 0,
+      "nextId": "28"
+    }, {
+      "text": "Ignore what I said.",
+      "score": 0,
+      "nextId": "28"
+    }, {
+      "text": ".......",
+      "score": 20,
+      "nextId": "25"
+    }]
+  },
+  "28": {
+    "text": "So, what do you mean?",
+    "options": [{
+      "text": "You can do it!",
+      "score": -10,
+      "nextId": "29"
+    }, {
+      "text": "... keep trying?",
+      "score": 0,
+      "nextId": "29"
+    }, {
+      "text": "Nothing.",
+      "score": 10,
+      "nextId": "30"
+    }, {
+      "text": "I don't know.",
+      "score": 0,
+      "nextId": "30"
+    }, {
+      "text": "Everything sucks, no matter what.",
+      "score": 20,
+      "nextId": "30"
+    }]
+  },
+  "29": {
+    "text": "Honestly?",
+    "options": [{
+      "text": "Yes.",
+      "score": -90,
+      "nextId": "23"
+    }, {
+      "text": "Maybe.",
+      "score": 0,
+      "nextId": "30"
+    }, {
+      "text": "I'm not sure.",
+      "score": 0,
+      "nextId": "30"
+    }, {
+      "text": "In the end, it doesn't even matter.",
+      "score": 20,
+      "nextId": "30"
+    }]
+  },
+  "30": {
+    "text": "Well, thanks anyways...",
+    "options": [{
+      "text": "You're welcome.",
+      "score": 20,
+      "nextId": "25"
+    }, {
+      "text": "This is awkward.",
+      "score": 10,
+      "nextId": "25"
+    }, {
+      "text": ".....",
+      "score": 10,
+      "nextId": "25"
+    }]
+  },
+  "31": {
+    "text": "Do you think I can do it?",
+    "options": [{
+      "text": "I think so.",
+      "score": 0,
+      "nextId": "20"
+    }, {
+      "text": "Of course!",
+      "score": -10,
+      "nextId": "20"
+    }, {
+      "text": "Why not?",
+      "score": 0,
+      "nextId": "20"
+    }, {
+      "text": "I'm not sure.",
+      "score": 10,
+      "nextId": "24"
+    }, {
+      "text": "It's not hard.",
+      "score": 20,
+      "nextId": "27"
+    }]
+  },
+  "32": {
+    "text": "Um... I'm gonna go. See you.",
+    "options": [{
+      "text": "Oh. See you.",
+      "score": 0
+    }, {
+      "text": "...",
       "score": 0
     }]
   }

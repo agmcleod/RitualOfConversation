@@ -1,9 +1,7 @@
 package com.agmcleod.ritual_of_conversation.entities;
 
-import com.agmcleod.ritual_of_conversation.components.ComponentMappers;
-import com.agmcleod.ritual_of_conversation.components.DialogueOptionComponent;
-import com.agmcleod.ritual_of_conversation.components.TextContentComponent;
-import com.agmcleod.ritual_of_conversation.components.TransformComponent;
+import com.agmcleod.ritual_of_conversation.components.*;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Created by aaronmcleod on 2016-01-29.
@@ -15,6 +13,11 @@ public class DialogueOptionBubble extends GameEntity {
         add(new TransformComponent(x, y, WIDTH, HEIGHT));
         add(new TextContentComponent());
         add(new DialogueOptionComponent());
+        add(new BoundingBoxComponent(WIDTH, HEIGHT));
+    }
+
+    public Rectangle getBoundingBox() {
+        return ComponentMappers.collidable.get(this).rectangle;
     }
 
     public TextContentComponent getTextContentComponent() {

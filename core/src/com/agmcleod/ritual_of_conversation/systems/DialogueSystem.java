@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -53,7 +54,9 @@ class DialogueContent {
  */
 public class DialogueSystem extends EntitySystem {
     private final float STAGGER = 200;
+    private Array<DialogueOptionBubbleActor> currentDialogueActors;
     private TextureAtlas atlas;
+    private int awkwardness;
     private Map<String, DialogueContent> dialogues;
     private Engine engine;
     private ImmutableArray<Entity> entities;
@@ -94,6 +97,7 @@ public class DialogueSystem extends EntitySystem {
 
     @Override
     public void update(float dt) {
+        DialogueOptionBubble collidedBubble = null;
         for (int i = 0; i < entities.size(); i++) {
             DialogueOptionBubble optionBubble = (DialogueOptionBubble) entities.get(i);
             TransformComponent transformComponent = optionBubble.getTransform();
@@ -110,6 +114,33 @@ public class DialogueSystem extends EntitySystem {
                     transformComponent.position.y = ((GameEntity) entities.get(nextIndex)).getTransform().position.y + STAGGER;
                 }
             }
+
+            if (optionBubble.getBoundingBox().overlaps(player.getBoundingBox())) {
+                collidedBubble = optionBubble;
+            }
+        }
+
+        if (collidedBubble != null) {
+            selectAnswer(collidedBubble);
+        }
+    }
+
+    private void selectAnswer(DialogueOptionBubble dialogueOptionBubble) {
+        DialogueOptionComponent dialogueOptionComponent = dialogueOptionBubble.getDialogueOptionComponent();
+        DialogueOptionContent content = dialogues.get(currentId).options[dialogueOptionComponent.optionIndex];
+        if (content.nextId == null) {
+            Gdx.app.exit();
+        } else {
+            currentId = content.nextId;
+            awkwardness += content.score;
+
+            for (int i = 0; i < entities.size(); i++) {
+                engine.removeEntity(entities.get(i));
+            }
+
+            for (int i = 0; i < currentDialogueActors.size; i++) {
+                currentDialogueActors.get(i).remove();
+            }
         }
     }
 
@@ -119,6 +150,8 @@ public class DialogueSystem extends EntitySystem {
             npcText.getTextContentComponent().text = content.text;
 
             int startY = Gdx.graphics.getHeight();
+
+            currentDialogueActors = new Array<DialogueOptionBubbleActor>(content.options.length);
 
             for (int i = 0; i < content.options.length; i++) {
                 DialogueOptionContent optionContent = content.options[i];
@@ -135,8 +168,9 @@ public class DialogueSystem extends EntitySystem {
                 optionComponent.optionIndex = i;
 
                 engine.addEntity(bubble);
-
-                stage.addActor(new DialogueOptionBubbleActor(atlas, font, bubble));
+                DialogueOptionBubbleActor actor = new DialogueOptionBubbleActor(atlas, font, bubble);
+                stage.addActor(actor);
+                currentDialogueActors.insert(i, actor);
             }
 
             setEntities(engine);

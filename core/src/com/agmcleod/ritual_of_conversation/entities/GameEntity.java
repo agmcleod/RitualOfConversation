@@ -12,8 +12,4 @@ public abstract class GameEntity extends Entity {
     public TransformComponent getTransform() {
         return ComponentMappers.transformable.get(this);
     }
-
-    public Rectangle getBoundingBox() {
-        return ComponentMappers.collidable.get(this).rectangle;
-    }
 }

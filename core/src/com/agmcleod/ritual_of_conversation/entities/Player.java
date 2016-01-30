@@ -6,6 +6,7 @@ import com.agmcleod.ritual_of_conversation.components.PlayerComponent;
 import com.agmcleod.ritual_of_conversation.components.TransformComponent;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Created by aaronmcleod on 2016-01-29.
@@ -23,6 +24,10 @@ public class Player extends GameEntity {
 
     public PlayerComponent getPlayerComponent() {
         return ComponentMappers.player.get(this);
+    }
+
+    public Rectangle getBoundingBox() {
+        return ComponentMappers.collidable.get(this).rectangle;
     }
 
     public boolean isMovingLeft() {
