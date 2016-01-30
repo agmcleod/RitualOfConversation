@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Rectangle;
  * Created by aaronmcleod on 2016-01-29.
  */
 public class DialogueOptionBubble extends GameEntity {
-    public static final float WIDTH = 300;
-    public static final float HEIGHT = 150;
+    public static final float WIDTH = 240;
+    public static final float HEIGHT = 106;
     public DialogueOptionBubble(float x, float y) {
         add(new TransformComponent(x, y, WIDTH, HEIGHT));
         add(new TextContentComponent());

@@ -27,8 +27,10 @@ public class DialogueOptionBubbleActor extends Actor {
     @Override
     public void draw(Batch batch, float alpha) {
         setBoundsFromEntity();
+        batch.setColor(1, 1, 1, dialogueOptionBubble.getDialogueOptionComponent().alpha);
         batch.draw(region, getX(), getY(), getWidth(), getHeight());
         font.draw(batch, dialogueOptionBubble.getTextContentComponent().text, getX() + 20, getY() + getHeight() - 20);
+        batch.setColor(1, 1, 1, 1);
     }
 
     public void setBoundsFromEntity() {

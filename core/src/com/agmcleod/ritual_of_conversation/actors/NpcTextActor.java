@@ -22,7 +22,6 @@ public class NpcTextActor extends Actor {
         this.npcText = npcText;
         this.font = font;
         this.region = atlas.findRegion("npctextbackground");
-        setZIndex(9999);
     }
 
     @Override

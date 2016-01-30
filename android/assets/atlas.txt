@@ -18,7 +18,7 @@ npctextbackground
   index: -1
 player
   rotate: false
-  xy: 2, 730
+  xy: 2, 704
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
@@ -26,7 +26,7 @@ player
 speech
   rotate: false
   xy: 2, 596
-  size: 300, 132
-  orig: 300, 150
-  offset: 0, 18
+  size: 240, 106
+  orig: 240, 120
+  offset: 0, 14
   index: -1

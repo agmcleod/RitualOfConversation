@@ -7,4 +7,5 @@ import com.badlogic.ashley.core.Component;
  */
 public class DialogueOptionComponent implements Component {
     public int optionIndex;
+    public float alpha = 1;
 }
