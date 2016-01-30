@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.systems;
 
+import com.agmcleod.ritual_of_conversation.SoundManager;
 import com.agmcleod.ritual_of_conversation.actors.DialogueOptionBubbleActor;
 import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
 import com.agmcleod.ritual_of_conversation.components.DialogueOptionComponent;
@@ -162,6 +163,7 @@ public class DialogueSystem extends EntitySystem {
             rectB.y += transformComponent.position.y;
             if (rectB.overlaps(rectA)) {
                 collidedBubble = optionBubble;
+                SoundManager.sounds.get("chime").play();
             }
         }
 
@@ -223,6 +225,7 @@ public class DialogueSystem extends EntitySystem {
             npcTextActor.setZIndex(999);
 
             setEntities(engine);
+            SoundManager.sounds.get("blip").play();
         }
     }
 
