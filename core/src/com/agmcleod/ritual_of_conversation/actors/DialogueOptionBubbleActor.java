@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Align;
 
 /**
  * Created by aaronmcleod on 2016-01-30.
@@ -29,7 +30,7 @@ public class DialogueOptionBubbleActor extends Actor {
         setBoundsFromEntity();
         batch.setColor(1, 1, 1, dialogueOptionBubble.getDialogueOptionComponent().alpha);
         batch.draw(region, getX(), getY(), getWidth(), getHeight());
-        font.draw(batch, dialogueOptionBubble.getTextContentComponent().text, getX() + 20, getY() + getHeight() - 20);
+        font.draw(batch, dialogueOptionBubble.getTextContentComponent().text, getX() + 20, getY() + getHeight() - 20, getWidth() - 40, Align.left, true);
         batch.setColor(1, 1, 1, 1);
     }
 

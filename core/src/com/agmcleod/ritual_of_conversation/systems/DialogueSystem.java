@@ -9,17 +9,15 @@ import com.agmcleod.ritual_of_conversation.entities.DialogueOptionBubble;
 import com.agmcleod.ritual_of_conversation.entities.GameEntity;
 import com.agmcleod.ritual_of_conversation.entities.NpcText;
 import com.agmcleod.ritual_of_conversation.entities.Player;
+import com.agmcleod.ritual_of_conversation.screens.PlayScreen;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.google.gson.Gson;
@@ -28,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Map;
 
 class DialogueOptionContent {
@@ -56,15 +55,16 @@ class DialogueContent {
  * Created by aaronmcleod on 2016-01-29.
  */
 public class DialogueSystem extends EntitySystem {
+    private final float BUBBLE_VELOCITY = 150;
     private final float STAGGER = 200;
     private final float SELECTED_TIMEOUT = 1f;
     private Array<DialogueOptionBubbleActor> currentDialogueActors;
-    private TextureAtlas atlas;
     private int awkwardness;
+    private final String AWKWARDNESS_CAP_ID = "32";
+    private String currentId = "1";
     private Map<String, DialogueContent> dialogues;
-    private Engine engine;
+    private PlayScreen playScreen;
     private ImmutableArray<Entity> entities;
-    private BitmapFont font;
     private NpcText npcText;
     private NpcTextActor npcTextActor;
     private Rectangle rectA;
@@ -72,21 +72,16 @@ public class DialogueSystem extends EntitySystem {
     private Player player;
     private DialogueOptionBubble selectedOption;
     private float selectedTimer;
-    private Stage stage;
-    private String currentId = "1";
     private final int[] DIALOGUE_SPAWN_POINTS = new int[] {
             0, 150, 300, 450, 600
     };
 
-    public DialogueSystem(Engine engine, Stage stage, TextureAtlas atlas, BitmapFont font, NpcText npcText, NpcTextActor npcTextActor, Player player) {
+    public DialogueSystem(PlayScreen playScreen, NpcText npcText, NpcTextActor npcTextActor, Player player) {
         this.player = player;
         this.npcText = npcText;
-        this.engine = engine;
-        this.stage = stage;
-        this.atlas = atlas;
-        this.font = font;
         awkwardness = 0;
         this.npcTextActor = npcTextActor;
+        this.playScreen = playScreen;
 
         rectA = new Rectangle();
         rectB = new Rectangle();
@@ -116,12 +111,13 @@ public class DialogueSystem extends EntitySystem {
             selectedOption.getDialogueOptionComponent().alpha = selectedTimer / SELECTED_TIMEOUT;
             if (selectedTimer <= 0) {
                 for (int i = 0; i < entities.size(); i++) {
-                    engine.removeEntity(entities.get(i));
+                    playScreen.getEngine().removeEntity(entities.get(i));
                 }
 
                 for (int i = 0; i < currentDialogueActors.size; i++) {
                     currentDialogueActors.get(i).remove();
                 }
+                currentDialogueActors.clear();
                 startDialogue();
             }
         } else {
@@ -135,27 +131,17 @@ public class DialogueSystem extends EntitySystem {
         TransformComponent playerTransform = player.getTransform();
         rectA.x += playerTransform.position.x;
         rectA.y += playerTransform.position.y;
+        Array<Float> points = new Array<Float>();
         for (int i = 0; i < entities.size(); i++) {
             DialogueOptionBubble optionBubble = (DialogueOptionBubble) entities.get(i);
             TransformComponent transformComponent = optionBubble.getTransform();
-            transformComponent.position.y -= 100 * dt;
+            transformComponent.position.y -= BUBBLE_VELOCITY * dt;
+
+            points.add(transformComponent.position.y);
 
             if (transformComponent.position.y + transformComponent.height / 2 < 0) {
-                int nextIndex = i - 1;
-                if (nextIndex < 0) {
-                    nextIndex = entities.size() - 1;
-                }
-                if (nextIndex == i) {
-                    transformComponent.position.y = Gdx.graphics.getHeight() + transformComponent.height / 2;
-                } else {
-                    TransformComponent nextTransform = ((GameEntity) entities.get(nextIndex)).getTransform();
-                    // if next one is off screen
-                    if (nextTransform.position.y - nextTransform.width / 2 >= Gdx.graphics.getHeight()) {
-                        transformComponent.position.y = nextTransform.position.y + STAGGER;
-                    } else {
-                        transformComponent.position.y = Gdx.graphics.getHeight() + transformComponent.height / 2;
-                    }
-                }
+                float highX = STAGGER + (entities.size() * STAGGER);
+                transformComponent.position.y = Math.max(highX, Gdx.graphics.getHeight() - transformComponent.height / 2);
             }
 
             rectB.set(optionBubble.getBoundingBox());
@@ -177,10 +163,13 @@ public class DialogueSystem extends EntitySystem {
         DialogueOptionComponent dialogueOptionComponent = dialogueOptionBubble.getDialogueOptionComponent();
         DialogueOptionContent content = dialogues.get(currentId).options[dialogueOptionComponent.optionIndex];
         if (content.nextId == null) {
-            Gdx.app.exit();
+            playScreen.gotoEndScreen();
         } else {
             currentId = content.nextId;
             awkwardness += content.score;
+            if (awkwardness >= 100) {
+                currentId = AWKWARDNESS_CAP_ID;
+            }
 
             selectedTimer = SELECTED_TIMEOUT;
         }
@@ -197,6 +186,7 @@ public class DialogueSystem extends EntitySystem {
             currentDialogueActors = new Array<DialogueOptionBubbleActor>(content.options.length);
 
             int lastStartPoint = -100;
+
             for (int i = 0; i < content.options.length; i++) {
                 DialogueOptionContent optionContent = content.options[i];
                 int startPoint = 0;
@@ -215,8 +205,9 @@ public class DialogueSystem extends EntitySystem {
                 DialogueOptionComponent optionComponent = bubble.getDialogueOptionComponent();
                 optionComponent.optionIndex = i;
 
-                engine.addEntity(bubble);
-                DialogueOptionBubbleActor actor = new DialogueOptionBubbleActor(atlas, font, bubble);
+                playScreen.getEngine().addEntity(bubble);
+                Stage stage = playScreen.getStage();
+                DialogueOptionBubbleActor actor = new DialogueOptionBubbleActor(playScreen.getAtlas(), playScreen.getDialogueFont(), bubble);
                 actor.setZIndex(stage.getActors().size - 2);
                 stage.addActor(actor);
                 currentDialogueActors.insert(i, actor);
@@ -224,7 +215,7 @@ public class DialogueSystem extends EntitySystem {
 
             npcTextActor.setZIndex(999);
 
-            setEntities(engine);
+            setEntities(playScreen.getEngine());
             SoundManager.sounds.get("blip").play();
         }
     }
