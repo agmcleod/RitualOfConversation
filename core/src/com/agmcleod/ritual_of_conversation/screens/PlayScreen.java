@@ -49,14 +49,14 @@ public class PlayScreen implements Screen {
 
     public void createDialogueSystem(Player player) {
         NpcText npcText = new NpcText();
-        DialogueSystem dialogueSystem = new DialogueSystem(engine, npcText, player);
+        DialogueSystem dialogueSystem = new DialogueSystem(engine, stage, atlas, dialogueFont, npcText, player);
         engine.addSystem(dialogueSystem);
-        NpcTextActor npcTextActor = new NpcTextActor(dialogueFont, npcText);
+        NpcTextActor npcTextActor = new NpcTextActor(atlas, dialogueFont, npcText);
         stage.addActor(npcTextActor);
     }
 
     public void createPlayer(Player player) {
-        PlayerActor playerActor = new PlayerActor(player, atlas);
+        PlayerActor playerActor = new PlayerActor(atlas, player);
         stage.setKeyboardFocus(playerActor);
 
         engine.addEntity(player);

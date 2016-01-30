@@ -1,6 +1,10 @@
 package com.agmcleod.ritual_of_conversation.systems;
 
+import com.agmcleod.ritual_of_conversation.actors.DialogueOptionBubbleActor;
 import com.agmcleod.ritual_of_conversation.components.DialogueOptionComponent;
+import com.agmcleod.ritual_of_conversation.components.TransformComponent;
+import com.agmcleod.ritual_of_conversation.entities.DialogueOptionBubble;
+import com.agmcleod.ritual_of_conversation.entities.GameEntity;
 import com.agmcleod.ritual_of_conversation.entities.NpcText;
 import com.agmcleod.ritual_of_conversation.entities.Player;
 import com.badlogic.ashley.core.Engine;
@@ -9,6 +13,10 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -44,17 +52,27 @@ class DialogueContent {
  * Created by aaronmcleod on 2016-01-29.
  */
 public class DialogueSystem extends EntitySystem {
+    private final float STAGGER = 200;
+    private TextureAtlas atlas;
     private Map<String, DialogueContent> dialogues;
     private Engine engine;
     private ImmutableArray<Entity> entities;
+    private BitmapFont font;
     private NpcText npcText;
     private Player player;
+    private Stage stage;
     private String currentId = "1";
+    private final int[] DIALOGUE_SPAWN_POINTS = new int[] {
+            0, 150, 300, 450, 600
+    };
 
-    public DialogueSystem(Engine engine, NpcText npcText, Player player) {
+    public DialogueSystem(Engine engine, Stage stage, TextureAtlas atlas, BitmapFont font, NpcText npcText, Player player) {
         this.player = player;
         this.npcText = npcText;
         this.engine = engine;
+        this.stage = stage;
+        this.atlas = atlas;
+        this.font = font;
 
         try {
             String jsonText = new String(Files.readAllBytes(Gdx.files.internal("dialogue.json").file().toPath()));
@@ -76,13 +94,52 @@ public class DialogueSystem extends EntitySystem {
 
     @Override
     public void update(float dt) {
+        for (int i = 0; i < entities.size(); i++) {
+            DialogueOptionBubble optionBubble = (DialogueOptionBubble) entities.get(i);
+            TransformComponent transformComponent = optionBubble.getTransform();
+            transformComponent.position.y -= 100 * dt;
 
+            if (transformComponent.position.y + transformComponent.height < 0) {
+                int nextIndex = i - 1;
+                if (nextIndex < 0) {
+                    nextIndex = entities.size() - 1;
+                }
+                if (nextIndex == i) {
+                    transformComponent.position.y = Gdx.graphics.getHeight() + transformComponent.height / 2;
+                } else {
+                    transformComponent.position.y = ((GameEntity) entities.get(nextIndex)).getTransform().position.y + STAGGER;
+                }
+            }
+        }
     }
 
     private void startDialogue() {
         if (dialogues.containsKey(currentId)) {
             DialogueContent content = dialogues.get(currentId);
             npcText.getTextContentComponent().text = content.text;
+
+            int startY = Gdx.graphics.getHeight();
+
+            for (int i = 0; i < content.options.length; i++) {
+                DialogueOptionContent optionContent = content.options[i];
+                int startPoint = DIALOGUE_SPAWN_POINTS[MathUtils.random(0, DIALOGUE_SPAWN_POINTS.length - 1)];
+                startPoint += MathUtils.random(-10, 10);
+                if (startPoint < 0) {
+                    startPoint = MathUtils.random(0, 10);
+                }
+
+                startPoint += DialogueOptionBubble.WIDTH / 2;
+                DialogueOptionBubble bubble = new DialogueOptionBubble(startPoint, startY + (STAGGER * i));
+                bubble.getTextContentComponent().text = optionContent.text;
+                DialogueOptionComponent optionComponent = bubble.getDialogueOptionComponent();
+                optionComponent.optionIndex = i;
+
+                engine.addEntity(bubble);
+
+                stage.addActor(new DialogueOptionBubbleActor(atlas, font, bubble));
+            }
+
+            setEntities(engine);
         }
     }
 

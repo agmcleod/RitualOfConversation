@@ -18,7 +18,7 @@ public class PlayerActor extends Actor {
     private Player player;
     private TextureRegion region;
 
-    public PlayerActor(final Player player, TextureAtlas textureAtlas) {
+    public PlayerActor(TextureAtlas textureAtlas, final Player player) {
         this.player = player;
         region = textureAtlas.findRegion("player");
 
