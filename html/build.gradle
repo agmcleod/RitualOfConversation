@@ -18,6 +18,10 @@ gwt {
     }
 }
 
+dependencies {
+    compile 'com.google.code.gson:gson:2.2.+'
+}
+
 task draftRun(type: JettyRunWar) {
     dependsOn draftWar
     dependsOn.remove('war')
