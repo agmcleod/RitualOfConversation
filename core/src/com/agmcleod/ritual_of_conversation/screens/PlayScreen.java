@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
  * Created by aaronmcleod on 2016-01-29.
@@ -60,7 +61,7 @@ public class PlayScreen implements Screen {
         engine = new Engine();
         transitioningOut = false;
         transitioningIn = true;
-        stage = new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage = new Stage(new ScreenViewport());
         atlas = new TextureAtlas(Gdx.files.internal("atlas.txt"));
         dialogueFont = new BitmapFont(Gdx.files.internal("munro24.fnt"));
         npcFont = new BitmapFont(Gdx.files.internal("munro24white.fnt"));
