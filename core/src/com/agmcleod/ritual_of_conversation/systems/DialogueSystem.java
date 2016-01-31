@@ -6,8 +6,7 @@ import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
 import com.agmcleod.ritual_of_conversation.components.DialogueOptionComponent;
 import com.agmcleod.ritual_of_conversation.components.TransformComponent;
 import com.agmcleod.ritual_of_conversation.entities.DialogueOptionBubble;
-import com.agmcleod.ritual_of_conversation.entities.GameEntity;
-import com.agmcleod.ritual_of_conversation.entities.NpcText;
+import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
 import com.agmcleod.ritual_of_conversation.entities.Player;
 import com.agmcleod.ritual_of_conversation.screens.PlayScreen;
 import com.badlogic.ashley.core.Engine;
@@ -27,6 +26,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 class DialogueOptionContent {
@@ -55,17 +55,18 @@ class DialogueContent {
  * Created by aaronmcleod on 2016-01-29.
  */
 public class DialogueSystem extends EntitySystem {
+    private final float AWKWARDNESS_CAP = 100;
     private final float BUBBLE_VELOCITY = 150;
     private final float STAGGER = 200;
     private final float SELECTED_TIMEOUT = 1f;
+    private final String AWKWARDNESS_CAP_ID = "32";
     private Array<DialogueOptionBubbleActor> currentDialogueActors;
     private int awkwardness;
-    private final String AWKWARDNESS_CAP_ID = "32";
     private String currentId = "1";
     private Map<String, DialogueContent> dialogues;
     private PlayScreen playScreen;
     private ImmutableArray<Entity> entities;
-    private NpcText npcText;
+    private NpcEntity npcEntity;
     private NpcTextActor npcTextActor;
     private Rectangle rectA;
     private Rectangle rectB;
@@ -76,9 +77,9 @@ public class DialogueSystem extends EntitySystem {
             0, 150, 300, 450, 600
     };
 
-    public DialogueSystem(PlayScreen playScreen, NpcText npcText, NpcTextActor npcTextActor, Player player) {
+    public DialogueSystem(PlayScreen playScreen, NpcEntity npcEntity, NpcTextActor npcTextActor, Player player) {
         this.player = player;
-        this.npcText = npcText;
+        this.npcEntity = npcEntity;
         awkwardness = 0;
         this.npcTextActor = npcTextActor;
         this.playScreen = playScreen;
@@ -91,6 +92,10 @@ public class DialogueSystem extends EntitySystem {
             Gson gson = new Gson();
             Type type = new TypeToken<Map<String, DialogueContent>>() {}.getType();
             dialogues = gson.fromJson(jsonText, type);
+
+            for (Map.Entry<String, DialogueContent> entry : dialogues.entrySet()) {
+                Collections.shuffle(Arrays.asList(entry.getValue().options));
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -167,9 +172,13 @@ public class DialogueSystem extends EntitySystem {
         } else {
             currentId = content.nextId;
             awkwardness += content.score;
-            if (awkwardness >= 100) {
+            if (awkwardness >= AWKWARDNESS_CAP) {
                 currentId = AWKWARDNESS_CAP_ID;
+            } else if (awkwardness < 0) {
+                awkwardness = 0;
             }
+
+            npcEntity.setEmotionState(awkwardness / AWKWARDNESS_CAP);
 
             selectedTimer = SELECTED_TIMEOUT;
         }
@@ -178,7 +187,7 @@ public class DialogueSystem extends EntitySystem {
     private void startDialogue() {
         if (dialogues.containsKey(currentId)) {
             DialogueContent content = dialogues.get(currentId);
-            npcText.getTextContentComponent().text = content.text;
+            npcEntity.getTextContentComponent().text = content.text;
 
             // multiplied so there's a delay
             float startY = Gdx.graphics.getHeight() * 1.5f;

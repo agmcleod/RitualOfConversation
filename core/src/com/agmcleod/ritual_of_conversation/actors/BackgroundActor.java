@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,6 +17,6 @@ public class BackgroundActor extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha) {
-        batch.draw(region, 0, 0);
+        batch.draw(region, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 }

@@ -11,4 +11,5 @@ public class ComponentMappers {
     public static final ComponentMapper<BoundingBoxComponent> collidable = ComponentMapper.getFor(BoundingBoxComponent.class);
     public static final ComponentMapper<TextContentComponent> textContent = ComponentMapper.getFor(TextContentComponent.class);
     public static final ComponentMapper<PlayerComponent> player = ComponentMapper.getFor(PlayerComponent.class);
+    public static final ComponentMapper<NpcStateComponent> npcState = ComponentMapper.getFor(NpcStateComponent.class);
 }

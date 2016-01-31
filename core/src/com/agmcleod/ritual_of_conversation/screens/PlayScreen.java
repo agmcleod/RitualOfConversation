@@ -5,8 +5,7 @@ import com.agmcleod.ritual_of_conversation.SoundManager;
 import com.agmcleod.ritual_of_conversation.actors.BackgroundActor;
 import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
 import com.agmcleod.ritual_of_conversation.actors.PlayerActor;
-import com.agmcleod.ritual_of_conversation.components.TransformComponent;
-import com.agmcleod.ritual_of_conversation.entities.NpcText;
+import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
 import com.agmcleod.ritual_of_conversation.entities.Player;
 import com.agmcleod.ritual_of_conversation.systems.DialogueSystem;
 import com.agmcleod.ritual_of_conversation.systems.MovementSystem;
@@ -34,6 +33,7 @@ public class PlayScreen implements Screen {
     private TransitionCallback fadeInCallback;
     private TransitionCallback fadeOutCallback;
     private RitualOfConversation game;
+    private BitmapFont npcFont;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
     private boolean transitioningIn;
@@ -51,6 +51,7 @@ public class PlayScreen implements Screen {
         stage = new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         atlas = new TextureAtlas(Gdx.files.internal("atlas.txt"));
         dialogueFont = new BitmapFont(Gdx.files.internal("munro24.fnt"));
+        npcFont = new BitmapFont(Gdx.files.internal("munro24white.fnt"));
         shapeRenderer = new ShapeRenderer();
         Gdx.input.setInputProcessor(stage);
 
@@ -82,9 +83,9 @@ public class PlayScreen implements Screen {
     }
 
     public void createDialogueSystem(Player player) {
-        NpcText npcText = new NpcText();
-        NpcTextActor npcTextActor = new NpcTextActor(atlas, dialogueFont, npcText);
-        DialogueSystem dialogueSystem = new DialogueSystem(this, npcText, npcTextActor, player);
+        NpcEntity npcEntity = new NpcEntity();
+        NpcTextActor npcTextActor = new NpcTextActor(atlas, npcFont, npcEntity);
+        DialogueSystem dialogueSystem = new DialogueSystem(this, npcEntity, npcTextActor, player);
         engine.addSystem(dialogueSystem);
 
         stage.addActor(npcTextActor);
@@ -167,6 +168,7 @@ public class PlayScreen implements Screen {
     public void dispose() {
         atlas.dispose();
         dialogueFont.dispose();
+        npcFont.dispose();
         ObjectMap.Entries<String, Sound> it = SoundManager.sounds.iterator();
         while (it.hasNext()) {
             ObjectMap.Entry<String, Sound> entry = it.next();

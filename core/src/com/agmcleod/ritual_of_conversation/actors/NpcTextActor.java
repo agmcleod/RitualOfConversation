@@ -1,14 +1,11 @@
 package com.agmcleod.ritual_of_conversation.actors;
 
-import com.agmcleod.ritual_of_conversation.components.TransformComponent;
-import com.agmcleod.ritual_of_conversation.entities.NpcText;
-import com.agmcleod.ritual_of_conversation.helpers.EntityToScreenConversion;
+import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
@@ -16,19 +13,39 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 public class NpcTextActor extends Actor {
     private BitmapFont font;
-    private NpcText npcText;
+    private NpcEntity npcEntity;
     private TextureRegion region;
-    public NpcTextActor(TextureAtlas atlas, BitmapFont font, NpcText npcText) {
-        this.npcText = npcText;
+    private TextureRegion contentRegion;
+    private TextureRegion neutralRegion;
+    private TextureRegion uncomfortableRegion;
+    public NpcTextActor(TextureAtlas atlas, BitmapFont font, NpcEntity npcEntity) {
+        this.npcEntity = npcEntity;
         this.font = font;
-        this.region = atlas.findRegion("npctextbackground");
+        this.region = atlas.findRegion("top_banner");
+        this.setBounds(50, Gdx.graphics.getHeight() - 50, 860, 50);
+
+        contentRegion = atlas.findRegion("content");
+        neutralRegion = atlas.findRegion("neutral");
+        uncomfortableRegion = atlas.findRegion("uncomfortable");
     }
 
     @Override
     public void draw(Batch batch, float alpha) {
-        TransformComponent transformComponent = npcText.getTransform();
-        Vector2 position = EntityToScreenConversion.getPosition(transformComponent);
-        batch.draw(this.region, 0, Gdx.graphics.getHeight() - region.getRegionHeight());
-        font.draw(batch, npcText.getTextContentComponent().text, position.x, position.y);
+        batch.draw(this.region, getX(), getY(), getWidth(), getHeight());
+        font.draw(batch, npcEntity.getTextContentComponent().text, getX() + 10, getY() + getHeight());
+        TextureRegion region;
+        switch (npcEntity.getNpcStateComponent().state) {
+            case CONTENT:
+                region = contentRegion;
+                break;
+            case NEUTRAL:
+                region = neutralRegion;
+                break;
+            default:
+                region = uncomfortableRegion;
+                break;
+        }
+
+        batch.draw(region, 0, getY(), 50, 50);
     }
 }

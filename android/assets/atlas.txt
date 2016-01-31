@@ -4,36 +4,57 @@ filter: Linear,Linear
 repeat: none
 background
   rotate: false
-  xy: 964, 2
-  size: 960, 540
-  orig: 960, 540
+  xy: 2, 2
+  size: 1920, 1080
+  orig: 1920, 1080
   offset: 0, 0
   index: -1
-npctextbackground
+content
   rotate: false
-  xy: 2, 544
-  size: 960, 50
-  orig: 960, 50
-  offset: 0, 0
-  index: -1
-player
-  rotate: false
-  xy: 1926, 2
+  xy: 1924, 206
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
+neutral
+  rotate: false
+  xy: 1924, 104
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 2, 1734
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
 speech
   rotate: false
-  xy: 964, 544
+  xy: 1724, 1084
   size: 240, 106
   orig: 240, 120
   offset: 0, 14
   index: -1
 startscreen
   rotate: false
-  xy: 2, 2
+  xy: 2, 1192
   size: 960, 540
   orig: 960, 540
+  offset: 0, 0
+  index: -1
+top_banner
+  rotate: false
+  xy: 2, 1084
+  size: 1720, 100
+  orig: 1720, 100
+  offset: 0, 0
+  index: -1
+uncomfortable
+  rotate: false
+  xy: 1924, 2
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
