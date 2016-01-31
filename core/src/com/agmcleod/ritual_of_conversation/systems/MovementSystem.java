@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.systems;
 
+import com.agmcleod.ritual_of_conversation.actors.AwkwardBarActor;
 import com.agmcleod.ritual_of_conversation.components.PlayerComponent;
 import com.agmcleod.ritual_of_conversation.components.TransformComponent;
 import com.agmcleod.ritual_of_conversation.entities.Player;
@@ -38,8 +39,8 @@ public class MovementSystem extends EntitySystem {
 
             if (position.x - hWidth < 0) {
                 position.x = hWidth;
-            } else if (position.x + hWidth > Gdx.graphics.getWidth()) {
-                position.x = Gdx.graphics.getWidth() - hWidth;
+            } else if (position.x + hWidth > Gdx.graphics.getWidth() - AwkwardBarActor.BORDER_WIDTH) {
+                position.x = Gdx.graphics.getWidth() - AwkwardBarActor.BORDER_WIDTH - hWidth;
             }
         }
     }
