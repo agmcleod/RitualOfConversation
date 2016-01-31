@@ -4,7 +4,7 @@ filter: Linear,Linear
 repeat: none
 background
   rotate: false
-  xy: 2, 2
+  xy: 964, 2
   size: 960, 540
   orig: 960, 540
   offset: 0, 0
@@ -18,15 +18,22 @@ npctextbackground
   index: -1
 player
   rotate: false
-  xy: 2, 704
+  xy: 1926, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 speech
   rotate: false
-  xy: 2, 596
+  xy: 964, 544
   size: 240, 106
   orig: 240, 120
   offset: 0, 14
+  index: -1
+startscreen
+  rotate: false
+  xy: 2, 2
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
   index: -1

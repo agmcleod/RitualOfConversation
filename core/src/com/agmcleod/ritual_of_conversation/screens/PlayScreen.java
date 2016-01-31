@@ -5,6 +5,7 @@ import com.agmcleod.ritual_of_conversation.SoundManager;
 import com.agmcleod.ritual_of_conversation.actors.BackgroundActor;
 import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
 import com.agmcleod.ritual_of_conversation.actors.PlayerActor;
+import com.agmcleod.ritual_of_conversation.components.TransformComponent;
 import com.agmcleod.ritual_of_conversation.entities.NpcText;
 import com.agmcleod.ritual_of_conversation.entities.Player;
 import com.agmcleod.ritual_of_conversation.systems.DialogueSystem;
@@ -30,10 +31,12 @@ public class PlayScreen implements Screen {
     private BitmapFont dialogueFont;
     private Engine engine;
     private float fadeTimer;
+    private TransitionCallback fadeInCallback;
     private TransitionCallback fadeOutCallback;
     private RitualOfConversation game;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
+    private boolean transitioningIn;
     private boolean transitioningOut;
 
     public PlayScreen(RitualOfConversation game) {
@@ -44,6 +47,7 @@ public class PlayScreen implements Screen {
     public void show() {
         engine = new Engine();
         transitioningOut = false;
+        transitioningIn = true;
         stage = new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         atlas = new TextureAtlas(Gdx.files.internal("atlas.txt"));
         dialogueFont = new BitmapFont(Gdx.files.internal("munro24.fnt"));
@@ -60,11 +64,19 @@ public class PlayScreen implements Screen {
         createDialogueSystem(player);
 
         engine.addSystem(new MovementSystem());
+        fadeTimer = RitualOfConversation.FADE_TIMEOUT;
 
         fadeOutCallback = new TransitionCallback() {
             @Override
             public void callback() {
                 game.gotoEndScreen();
+            }
+        };
+
+        fadeInCallback = new TransitionCallback() {
+            @Override
+            public void callback() {
+                transitioningIn = false;
             }
         };
     }
@@ -111,7 +123,7 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (!transitioningOut) {
+        if (!transitioningOut && !transitioningIn) {
             update(delta);
         }
 
@@ -120,7 +132,10 @@ public class PlayScreen implements Screen {
 
         if (transitioningOut) {
             fadeTimer += delta;
-            game.drawBlackTransparentSquare(shapeRenderer, fadeTimer / RitualOfConversation.FADE_TIMEOUT, fadeOutCallback);
+            game.drawWhiteTransparentSquare(shapeRenderer, fadeTimer / RitualOfConversation.FADE_TIMEOUT, fadeOutCallback);
+        } else if (transitioningIn) {
+            fadeTimer -= delta;
+            game.drawWhiteTransparentSquare(shapeRenderer, fadeTimer / RitualOfConversation.FADE_TIMEOUT, fadeInCallback);
         }
     }
 
