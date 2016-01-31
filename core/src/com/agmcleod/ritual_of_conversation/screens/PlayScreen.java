@@ -132,7 +132,7 @@ public class PlayScreen implements Screen {
     }
 
     public void createPlayer(Player player) {
-        PlayerActor playerActor = new PlayerActor(atlas, player);
+        PlayerActor playerActor = new PlayerActor(atlas, shapeRenderer, player);
         stage.setKeyboardFocus(playerActor);
 
         engine.addEntity(player);

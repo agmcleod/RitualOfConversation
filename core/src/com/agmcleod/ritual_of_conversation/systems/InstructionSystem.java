@@ -22,9 +22,9 @@ public class InstructionSystem extends EntitySystem {
     public String getTextForInstructionState(InstructionState instructionState) {
         switch (instructionState) {
             case COLLISION_CHOICE:
-                return "There are more than one answers to give.";
+                return "There may be more than one response to give.";
             case AWKWARDNESS_BAR:
-                return "As you talk, the awkwardness of the conversation goes up & down.";
+                return "As you respond, the awkwardness of the conversation may go up or down.";
             default:
                 return null;
 

@@ -7,6 +7,8 @@ import com.agmcleod.ritual_of_conversation.helpers.TextureRegionDrawer;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,10 +20,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class PlayerActor extends Actor {
     private Player player;
     private TextureAtlas.AtlasRegion region;
+    private ShapeRenderer shapeRenderer;
 
-    public PlayerActor(TextureAtlas textureAtlas, final Player player) {
+    public PlayerActor(TextureAtlas textureAtlas, ShapeRenderer shapeRenderer, final Player player) {
         this.player = player;
         region = textureAtlas.findRegion("player");
+        this.shapeRenderer = shapeRenderer;
 
         this.addListener(new InputListener() {
             @Override
@@ -41,5 +45,12 @@ public class PlayerActor extends Actor {
         TransformComponent transformComponent = player.getTransform();
         Vector2 position = EntityToScreenConversion.getPosition(transformComponent);
         TextureRegionDrawer.drawRegionForBatch(batch, region, position.x, position.y, transformComponent.width, transformComponent.height);
+
+        /*batch.end();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        Rectangle box = player.getBoundingBox();
+        shapeRenderer.rect(transformComponent.position.x + box.x, transformComponent.position.y + box.y, box.width, box.height);
+        shapeRenderer.end();
+        batch.begin(); */
     }
 }

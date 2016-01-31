@@ -188,7 +188,7 @@ public class DialogueSystem extends EntitySystem {
             rectB.set(optionBubble.getBoundingBox());
             rectB.x += transformComponent.position.x;
             rectB.y += transformComponent.position.y;
-            if (rectB.overlaps(rectA)) {
+            if (rectB.y > 0 && rectB.overlaps(rectA)) {
                 collidedBubble = optionBubble;
             }
         }

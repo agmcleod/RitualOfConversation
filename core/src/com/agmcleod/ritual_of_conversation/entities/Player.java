@@ -17,9 +17,10 @@ public class Player extends GameEntity {
     private final float WIDTH = 70;
 
     public Player() {
-        TransformComponent transform = new TransformComponent(RitualOfConversation.GAME_WIDTH / 2, HEIGHT  / 2, WIDTH, HEIGHT);
+        TransformComponent transform = new TransformComponent(RitualOfConversation.GAME_WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT);
         add(transform);
-        add(new BoundingBoxComponent(-WIDTH/2, 0, WIDTH, HEIGHT /2));
+        float boxWidth = WIDTH * 0.9f;
+        add(new BoundingBoxComponent(-boxWidth/2, 25, boxWidth, HEIGHT / 5));
         add(new PlayerComponent());
     }
 
