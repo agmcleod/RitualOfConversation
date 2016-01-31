@@ -59,6 +59,7 @@ class DialogueContent {
 public class DialogueSystem extends EntitySystem {
     private final float AWKWARDNESS_CAP = 100;
     private final float BUBBLE_VELOCITY = 250;
+    private final float NEXT_TOKEN_TIME = 0.15f;
     private final float STAGGER = 270;
     private final float SELECTED_TIMEOUT = 1f;
     private final String AWKWARDNESS_CAP_ID = "32";
@@ -66,6 +67,7 @@ public class DialogueSystem extends EntitySystem {
     private AwkwardBar awkwardBar;
     private int awkwardness;
     private String currentId = "1";
+    private int currentToken = 0;
     private Map<String, DialogueContent> dialogues;
     private PlayScreen playScreen;
     private ImmutableArray<Entity> entities;
@@ -75,6 +77,9 @@ public class DialogueSystem extends EntitySystem {
     private Player player;
     private DialogueOptionBubble selectedOption;
     private float selectedTimer;
+    private String[] tokens;
+    private float tokenTimer = 0;
+
     private final int[] DIALOGUE_SPAWN_POINTS = new int[] {
             0, 150, 300, 450, 600
     };
@@ -88,6 +93,8 @@ public class DialogueSystem extends EntitySystem {
 
         rectA = new Rectangle();
         rectB = new Rectangle();
+
+        tokens = new String[0];
 
         try {
             FileHandle fileHandle = Gdx.files.internal("dialogue.json");
@@ -141,6 +148,20 @@ public class DialogueSystem extends EntitySystem {
             }
         } else {
             moveBubbles(dt);
+        }
+
+        if (currentToken < tokens.length) {
+            tokenTimer -= dt;
+            String newText = "";
+            for (int i = 0; i < (currentToken + 1); i++) {
+                newText += tokens[i] + " ";
+            }
+            if (tokenTimer <= 0) {
+                SoundManager.sounds.get("blip").play();
+                currentToken++;
+                tokenTimer = NEXT_TOKEN_TIME;
+            }
+            npcEntity.getTextContentComponent().text = newText;
         }
     }
 
@@ -207,11 +228,17 @@ public class DialogueSystem extends EntitySystem {
         }
     }
 
+    private void setNpcText(String text) {
+        tokens = text.split(" ");
+        currentToken = 0;
+        tokenTimer = NEXT_TOKEN_TIME;
+    }
+
     private void startDialogue() {
         if (dialogues.containsKey(currentId)) {
             DialogueContent content = dialogues.get(currentId);
 
-            npcEntity.getTextContentComponent().text = content.text;
+            setNpcText(content.text);
 
             // multiplied so there's a delay
             float startY = Gdx.graphics.getHeight() * 1.5f;

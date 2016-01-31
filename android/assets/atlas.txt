@@ -4,7 +4,7 @@ filter: Linear,Linear
 repeat: none
 awkwardbar
   rotate: true
-  xy: 544, 1966
+  xy: 2, 1728
   size: 32, 1014
   orig: 32, 1014
   offset: 0, 0
@@ -18,56 +18,63 @@ background
   index: -1
 barborder
   rotate: true
-  xy: 544, 1322
+  xy: 2, 1084
   size: 100, 1080
   orig: 100, 1080
   offset: 0, 0
   index: -1
 content
   rotate: false
-  xy: 1560, 1220
+  xy: 1830, 1906
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
+endscreen
+  rotate: false
+  xy: 2, 1186
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: -1
 neutral
   rotate: false
-  xy: 1742, 1186
+  xy: 1728, 1832
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 player
-  rotate: true
-  xy: 1560, 1084
+  rotate: false
+  xy: 1868, 1724
   size: 134, 180
   orig: 140, 184
   offset: 3, 2
   index: -1
 speech
-  rotate: true
-  xy: 1924, 2
+  rotate: false
+  xy: 1626, 1724
   size: 240, 106
   orig: 240, 120
   offset: 0, 14
   index: -1
 startscreen
   rotate: true
-  xy: 2, 1084
+  xy: 1084, 1084
   size: 960, 540
   orig: 960, 540
   offset: 0, 0
   index: -1
 top_banner
   rotate: true
-  xy: 1924, 244
+  xy: 1924, 2
   size: 1720, 100
   orig: 1720, 100
   offset: 0, 0
   index: -1
 uncomfortable
   rotate: false
-  xy: 1742, 1084
+  xy: 1626, 1832
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
