@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class RitualOfConversation extends Game {
 	public static final float FADE_TIMEOUT = 0.5f;
+	public static final float GAME_WIDTH = 960;
+	public static final float GAME_HEIGHT = 540;
 	private Color whiteColor;
 	private EndScreen endScreen;
 	private PlayScreen playScreen;
@@ -40,8 +42,8 @@ public class RitualOfConversation extends Game {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		whiteColor.set(1, 1, 1, percent);
 		shapeRenderer.setColor(whiteColor);
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		float w = RitualOfConversation.GAME_WIDTH;
+		float h = RitualOfConversation.GAME_HEIGHT;
 		shapeRenderer.rect(0, 0, w, h);
 		shapeRenderer.end();
 

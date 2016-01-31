@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.entities;
 
+import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.components.BoundingBoxComponent;
 import com.agmcleod.ritual_of_conversation.components.ComponentMappers;
 import com.agmcleod.ritual_of_conversation.components.PlayerComponent;
@@ -16,7 +17,7 @@ public class Player extends GameEntity {
     private final float WIDTH = 70;
 
     public Player() {
-        TransformComponent transform = new TransformComponent(Gdx.graphics.getWidth() / 2, HEIGHT  / 2, WIDTH, HEIGHT);
+        TransformComponent transform = new TransformComponent(RitualOfConversation.GAME_WIDTH / 2, HEIGHT  / 2, WIDTH, HEIGHT);
         add(transform);
         add(new BoundingBoxComponent(-WIDTH/2, 0, WIDTH, HEIGHT /2));
         add(new PlayerComponent());

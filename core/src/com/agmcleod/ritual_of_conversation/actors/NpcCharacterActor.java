@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.actors;
 
+import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,7 +18,7 @@ public class NpcCharacterActor extends Actor {
     private TextureRegion uncomfortableRegion;
     public NpcCharacterActor(TextureAtlas atlas, NpcEntity npcEntity) {
         this.npcEntity = npcEntity;
-        setBounds(0, Gdx.graphics.getHeight() - 50, 50, 50);
+        setBounds(0, RitualOfConversation.GAME_HEIGHT - 50, 50, 50);
         contentRegion = atlas.findRegion("content");
         neutralRegion = atlas.findRegion("neutral");
         uncomfortableRegion = atlas.findRegion("uncomfortable");

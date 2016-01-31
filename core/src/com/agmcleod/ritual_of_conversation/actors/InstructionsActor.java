@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.actors;
 
+import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.components.InstructionState;
 import com.agmcleod.ritual_of_conversation.components.InstructionStateComponent;
 import com.agmcleod.ritual_of_conversation.entities.Instructions;
@@ -23,7 +24,7 @@ public class InstructionsActor extends Actor {
         this.instructions = instructions;
         this.instructionsFont = instructionsFont;
         this.shapeRenderer = shapeRenderer;
-        setBounds((Gdx.graphics.getWidth() - WIDTH) / 2, Gdx.graphics.getHeight() / 2 + 100, WIDTH, 200);
+        setBounds((RitualOfConversation.GAME_WIDTH - WIDTH) / 2, RitualOfConversation.GAME_HEIGHT / 2 + 100, WIDTH, 200);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class InstructionsActor extends Actor {
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(0, 0, 0, 0.6f);
-            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.rect(0, 0, RitualOfConversation.GAME_WIDTH, RitualOfConversation.GAME_HEIGHT);
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
             batch.begin();

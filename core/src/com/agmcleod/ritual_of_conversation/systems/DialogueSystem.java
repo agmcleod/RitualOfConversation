@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.systems;
 
+import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.SoundManager;
 import com.agmcleod.ritual_of_conversation.actors.DialogueOptionBubbleActor;
 import com.agmcleod.ritual_of_conversation.components.DialogueOptionComponent;
@@ -181,7 +182,7 @@ public class DialogueSystem extends EntitySystem {
 
             if (transformComponent.position.y + transformComponent.height / 2 < 0) {
                 float highX = STAGGER + (entities.size() * STAGGER);
-                transformComponent.position.y = Math.max(highX, Gdx.graphics.getHeight() - transformComponent.height / 2);
+                transformComponent.position.y = Math.max(highX, RitualOfConversation.GAME_HEIGHT - transformComponent.height / 2);
             }
 
             rectB.set(optionBubble.getBoundingBox());
@@ -241,7 +242,7 @@ public class DialogueSystem extends EntitySystem {
             setNpcText(content.text);
 
             // multiplied so there's a delay
-            float startY = Gdx.graphics.getHeight() * 1.5f;
+            float startY = RitualOfConversation.GAME_HEIGHT * 1.5f;
 
             currentDialogueActors = new Array<DialogueOptionBubbleActor>(content.options.length);
 

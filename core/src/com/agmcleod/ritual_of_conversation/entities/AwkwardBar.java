@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.entities;
 
+import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.components.TransformComponent;
 import com.badlogic.gdx.Gdx;
 
@@ -11,7 +12,7 @@ public class AwkwardBar extends GameEntity {
     private final float HEIGHT = 507;
     private float startY = 20-HEIGHT / 2;
     public AwkwardBar() {
-        add(new TransformComponent(Gdx.graphics.getWidth() - 25, startY, WIDTH, HEIGHT));
+        add(new TransformComponent(RitualOfConversation.GAME_WIDTH - 25, startY, WIDTH, HEIGHT));
     }
 
     public void setAwkwardOffset(float awkwardBarPercent) {

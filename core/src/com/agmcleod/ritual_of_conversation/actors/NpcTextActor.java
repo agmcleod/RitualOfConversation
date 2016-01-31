@@ -1,5 +1,6 @@
 package com.agmcleod.ritual_of_conversation.actors;
 
+import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.SoundManager;
 import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
 import com.badlogic.gdx.Gdx;
@@ -20,7 +21,7 @@ public class NpcTextActor extends Actor {
         this.npcEntity = npcEntity;
         this.font = font;
         this.region = atlas.findRegion("top_banner");
-        this.setBounds(50, Gdx.graphics.getHeight() - 50, 860, 50);
+        this.setBounds(50, RitualOfConversation.GAME_HEIGHT - 50, 860, 50);
     }
 
     @Override
