@@ -210,6 +210,7 @@ public class DialogueSystem extends EntitySystem {
     private void startDialogue() {
         if (dialogues.containsKey(currentId)) {
             DialogueContent content = dialogues.get(currentId);
+
             npcEntity.getTextContentComponent().text = content.text;
 
             // multiplied so there's a delay
@@ -252,7 +253,6 @@ public class DialogueSystem extends EntitySystem {
             }
 
             setEntities(playScreen.getEngine());
-            SoundManager.sounds.get("blip").play();
         }
     }
 

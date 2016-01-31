@@ -18,4 +18,8 @@ public class BoundingBoxComponent implements Component {
     public BoundingBoxComponent(float w, float h) {
         makeRectangle(-w/2, -h/2, w, h);
     }
+
+    public BoundingBoxComponent(float x, float y, float w, float h) {
+        makeRectangle(x, y, w, h);
+    }
 }

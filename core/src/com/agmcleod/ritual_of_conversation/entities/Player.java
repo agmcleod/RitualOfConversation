@@ -18,7 +18,7 @@ public class Player extends GameEntity {
     public Player() {
         TransformComponent transform = new TransformComponent(Gdx.graphics.getWidth() / 2, HEIGHT  / 2, WIDTH, HEIGHT);
         add(transform);
-        add(new BoundingBoxComponent(WIDTH, HEIGHT));
+        add(new BoundingBoxComponent(-WIDTH/2, 0, WIDTH, HEIGHT /2));
         add(new PlayerComponent());
     }
 
