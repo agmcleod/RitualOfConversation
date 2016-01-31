@@ -2,10 +2,8 @@ package com.agmcleod.ritual_of_conversation.screens;
 
 import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.SoundManager;
-import com.agmcleod.ritual_of_conversation.actors.BackgroundActor;
-import com.agmcleod.ritual_of_conversation.actors.NpcCharacterActor;
-import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
-import com.agmcleod.ritual_of_conversation.actors.PlayerActor;
+import com.agmcleod.ritual_of_conversation.actors.*;
+import com.agmcleod.ritual_of_conversation.entities.AwkwardBar;
 import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
 import com.agmcleod.ritual_of_conversation.entities.Player;
 import com.agmcleod.ritual_of_conversation.systems.DialogueSystem;
@@ -35,6 +33,8 @@ public class PlayScreen implements Screen {
     private TransitionCallback fadeOutCallback;
     private RitualOfConversation game;
     private BitmapFont npcFont;
+    private NpcCharacterActor npcCharacterActor;
+    private NpcTextActor npcTextActor;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
     private boolean transitioningIn;
@@ -83,13 +83,21 @@ public class PlayScreen implements Screen {
         };
     }
 
+    public void bumpUiZIndex() {
+        npcTextActor.setZIndex(999);
+        npcCharacterActor.setZIndex(999);
+    }
+
     public void createDialogueSystem(Player player) {
         NpcEntity npcEntity = new NpcEntity();
-        NpcTextActor npcTextActor = new NpcTextActor(atlas, npcFont, npcEntity);
-        NpcCharacterActor npcCharacterActor = new NpcCharacterActor(atlas, npcEntity);
-        DialogueSystem dialogueSystem = new DialogueSystem(this, npcEntity, npcTextActor, player);
-        engine.addSystem(dialogueSystem);
+        npcTextActor = new NpcTextActor(atlas, npcFont, npcEntity);
+        npcCharacterActor = new NpcCharacterActor(atlas, npcEntity);
+        AwkwardBar awkwardBar = new AwkwardBar();
+        DialogueSystem dialogueSystem = new DialogueSystem(this, npcEntity, player, awkwardBar);
 
+        AwkwardBarActor awkwardBarActor = new AwkwardBarActor(atlas, awkwardBar);
+        engine.addSystem(dialogueSystem);
+        stage.addActor(awkwardBarActor);
         stage.addActor(npcTextActor);
         stage.addActor(npcCharacterActor);
     }

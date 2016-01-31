@@ -5,6 +5,7 @@ import com.agmcleod.ritual_of_conversation.actors.DialogueOptionBubbleActor;
 import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
 import com.agmcleod.ritual_of_conversation.components.DialogueOptionComponent;
 import com.agmcleod.ritual_of_conversation.components.TransformComponent;
+import com.agmcleod.ritual_of_conversation.entities.AwkwardBar;
 import com.agmcleod.ritual_of_conversation.entities.DialogueOptionBubble;
 import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
 import com.agmcleod.ritual_of_conversation.entities.Player;
@@ -56,18 +57,18 @@ class DialogueContent {
  */
 public class DialogueSystem extends EntitySystem {
     private final float AWKWARDNESS_CAP = 100;
-    private final float BUBBLE_VELOCITY = 150;
+    private final float BUBBLE_VELOCITY = 250;
     private final float STAGGER = 200;
     private final float SELECTED_TIMEOUT = 1f;
     private final String AWKWARDNESS_CAP_ID = "32";
     private Array<DialogueOptionBubbleActor> currentDialogueActors;
+    private AwkwardBar awkwardBar;
     private int awkwardness;
     private String currentId = "1";
     private Map<String, DialogueContent> dialogues;
     private PlayScreen playScreen;
     private ImmutableArray<Entity> entities;
     private NpcEntity npcEntity;
-    private NpcTextActor npcTextActor;
     private Rectangle rectA;
     private Rectangle rectB;
     private Player player;
@@ -77,12 +78,12 @@ public class DialogueSystem extends EntitySystem {
             0, 150, 300, 450, 600
     };
 
-    public DialogueSystem(PlayScreen playScreen, NpcEntity npcEntity, NpcTextActor npcTextActor, Player player) {
+    public DialogueSystem(PlayScreen playScreen, NpcEntity npcEntity, Player player, AwkwardBar awkwardBar) {
         this.player = player;
         this.npcEntity = npcEntity;
         awkwardness = 0;
-        this.npcTextActor = npcTextActor;
         this.playScreen = playScreen;
+        this.awkwardBar = awkwardBar;
 
         rectA = new Rectangle();
         rectB = new Rectangle();
@@ -178,6 +179,8 @@ public class DialogueSystem extends EntitySystem {
                 awkwardness = 0;
             }
 
+            awkwardBar.setAwkwardOffset(awkwardness / AWKWARDNESS_CAP);
+
             npcEntity.setEmotionState(awkwardness / AWKWARDNESS_CAP);
 
             selectedTimer = SELECTED_TIMEOUT;
@@ -222,7 +225,7 @@ public class DialogueSystem extends EntitySystem {
                 currentDialogueActors.insert(i, actor);
             }
 
-            npcTextActor.setZIndex(999);
+            playScreen.bumpUiZIndex();
 
             setEntities(playScreen.getEngine());
             SoundManager.sounds.get("blip").play();

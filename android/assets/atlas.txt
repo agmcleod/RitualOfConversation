@@ -2,6 +2,13 @@ atlas.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+awkwardbar
+  rotate: true
+  xy: 544, 1966
+  size: 32, 1014
+  orig: 32, 1014
+  offset: 0, 0
+  index: -1
 background
   rotate: false
   xy: 2, 2
@@ -9,51 +16,58 @@ background
   orig: 1920, 1080
   offset: 0, 0
   index: -1
+barborder
+  rotate: true
+  xy: 544, 1388
+  size: 100, 1080
+  orig: 100, 1080
+  offset: 0, 0
+  index: -1
 content
   rotate: false
-  xy: 1924, 206
+  xy: 1560, 1286
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 neutral
   rotate: false
-  xy: 1924, 104
+  xy: 1762, 1186
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 2, 1734
+  xy: 1560, 1084
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 speech
-  rotate: false
-  xy: 1724, 1084
+  rotate: true
+  xy: 1924, 2
   size: 240, 106
   orig: 240, 120
   offset: 0, 14
   index: -1
 startscreen
-  rotate: false
-  xy: 2, 1192
+  rotate: true
+  xy: 2, 1084
   size: 960, 540
   orig: 960, 540
   offset: 0, 0
   index: -1
 top_banner
-  rotate: false
-  xy: 2, 1084
+  rotate: true
+  xy: 1924, 244
   size: 1720, 100
   orig: 1720, 100
   offset: 0, 0
   index: -1
 uncomfortable
   rotate: false
-  xy: 1924, 2
+  xy: 1762, 1084
   size: 100, 100
   orig: 100, 100
   offset: 0, 0

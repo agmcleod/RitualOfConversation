@@ -1,6 +1,7 @@
 package com.agmcleod.ritual_of_conversation.screens;
 
 import com.agmcleod.ritual_of_conversation.RitualOfConversation;
+import com.agmcleod.ritual_of_conversation.helpers.TextureRegionDrawer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -16,7 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class StartScreen implements Screen, InputProcessor {
     private RitualOfConversation game;
     private TextureAtlas atlas;
-    private TextureRegion background;
+    private TextureAtlas.AtlasRegion background;
     private SpriteBatch batch;
     private TransitionCallback fadeOutCallback;
     private float fadeTimer;
@@ -48,7 +49,7 @@ public class StartScreen implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(background, 0, 0);
+        TextureRegionDrawer.drawRegionForBatch(batch, background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
         if (transitioningOut) {
