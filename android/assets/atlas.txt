@@ -18,31 +18,31 @@ background
   index: -1
 barborder
   rotate: true
-  xy: 544, 1388
+  xy: 544, 1322
   size: 100, 1080
   orig: 100, 1080
   offset: 0, 0
   index: -1
 content
   rotate: false
-  xy: 1560, 1286
+  xy: 1560, 1220
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 neutral
   rotate: false
-  xy: 1762, 1186
+  xy: 1742, 1186
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 player
-  rotate: false
+  rotate: true
   xy: 1560, 1084
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
+  size: 134, 180
+  orig: 140, 184
+  offset: 3, 2
   index: -1
 speech
   rotate: true
@@ -67,7 +67,7 @@ top_banner
   index: -1
 uncomfortable
   rotate: false
-  xy: 1762, 1084
+  xy: 1742, 1084
   size: 100, 100
   orig: 100, 100
   offset: 0, 0

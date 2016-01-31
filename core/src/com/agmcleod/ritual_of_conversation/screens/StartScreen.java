@@ -5,10 +5,10 @@ import com.agmcleod.ritual_of_conversation.helpers.TextureRegionDrawer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -21,6 +21,7 @@ public class StartScreen implements Screen, InputProcessor {
     private SpriteBatch batch;
     private TransitionCallback fadeOutCallback;
     private float fadeTimer;
+    private Music music;
     private boolean transitioningOut;
     private ShapeRenderer shapeRenderer;
     public StartScreen(final RitualOfConversation game) {
@@ -33,6 +34,8 @@ public class StartScreen implements Screen, InputProcessor {
         fadeOutCallback = new TransitionCallback() {
             @Override
             public void callback() {
+                music.stop();
+                music.dispose();
                 game.gotoPlayScreen();
             }
         };
@@ -41,6 +44,9 @@ public class StartScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
+        music = Gdx.audio.newMusic(Gdx.files.internal("routineconversationmenu.mp3"));
+        music.setLooping(true);
+        music.play();
         Gdx.input.setInputProcessor(this);
     }
 
@@ -92,6 +98,7 @@ public class StartScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        transitioningOut = true;
         return false;
     }
 

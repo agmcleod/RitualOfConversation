@@ -12,8 +12,8 @@ import com.badlogic.gdx.math.Rectangle;
  * Created by aaronmcleod on 2016-01-29.
  */
 public class Player extends GameEntity {
-    private final float HEIGHT = 100;
-    private final float WIDTH = 100;
+    private final float HEIGHT = 92;
+    private final float WIDTH = 70;
 
     public Player() {
         TransformComponent transform = new TransformComponent(Gdx.graphics.getWidth() / 2, HEIGHT  / 2, WIDTH, HEIGHT);

@@ -2,7 +2,6 @@ package com.agmcleod.ritual_of_conversation.systems;
 
 import com.agmcleod.ritual_of_conversation.SoundManager;
 import com.agmcleod.ritual_of_conversation.actors.DialogueOptionBubbleActor;
-import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
 import com.agmcleod.ritual_of_conversation.components.DialogueOptionComponent;
 import com.agmcleod.ritual_of_conversation.components.TransformComponent;
 import com.agmcleod.ritual_of_conversation.entities.AwkwardBar;
@@ -16,6 +15,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,9 +23,10 @@ import com.badlogic.gdx.utils.Array;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -58,7 +59,7 @@ class DialogueContent {
 public class DialogueSystem extends EntitySystem {
     private final float AWKWARDNESS_CAP = 100;
     private final float BUBBLE_VELOCITY = 250;
-    private final float STAGGER = 200;
+    private final float STAGGER = 270;
     private final float SELECTED_TIMEOUT = 1f;
     private final String AWKWARDNESS_CAP_ID = "32";
     private Array<DialogueOptionBubbleActor> currentDialogueActors;
@@ -89,7 +90,16 @@ public class DialogueSystem extends EntitySystem {
         rectB = new Rectangle();
 
         try {
-            String jsonText = new String(Files.readAllBytes(Gdx.files.internal("dialogue.json").file().toPath()));
+            FileHandle fileHandle = Gdx.files.internal("dialogue.json");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fileHandle.read()));
+            String jsonText = "";
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                jsonText += line;
+            }
             Gson gson = new Gson();
             Type type = new TypeToken<Map<String, DialogueContent>>() {}.getType();
             dialogues = gson.fromJson(jsonText, type);
@@ -124,6 +134,9 @@ public class DialogueSystem extends EntitySystem {
                     currentDialogueActors.get(i).remove();
                 }
                 currentDialogueActors.clear();
+                if (awkwardness > 0) {
+                    playScreen.queueAwkwardnessBarInstruction();
+                }
                 startDialogue();
             }
         } else {
@@ -155,7 +168,6 @@ public class DialogueSystem extends EntitySystem {
             rectB.y += transformComponent.position.y;
             if (rectB.overlaps(rectA)) {
                 collidedBubble = optionBubble;
-                SoundManager.sounds.get("chime").play();
             }
         }
 
@@ -177,6 +189,14 @@ public class DialogueSystem extends EntitySystem {
                 currentId = AWKWARDNESS_CAP_ID;
             } else if (awkwardness < 0) {
                 awkwardness = 0;
+            }
+
+            if (content.score > 0) {
+                SoundManager.sounds.get("chimebad").play();
+            } else if (content.score < 0) {
+                SoundManager.sounds.get("chimegood").play();
+            } else {
+                SoundManager.sounds.get("chime").play();
             }
 
             awkwardBar.setAwkwardOffset(awkwardness / AWKWARDNESS_CAP);
@@ -226,6 +246,10 @@ public class DialogueSystem extends EntitySystem {
             }
 
             playScreen.bumpUiZIndex();
+
+            if (content.options.length > 1) {
+                playScreen.queueCollisionChoiceInstruction();
+            }
 
             setEntities(playScreen.getEngine());
             SoundManager.sounds.get("blip").play();

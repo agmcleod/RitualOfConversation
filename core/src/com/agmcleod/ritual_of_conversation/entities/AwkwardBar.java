@@ -16,6 +16,5 @@ public class AwkwardBar extends GameEntity {
 
     public void setAwkwardOffset(float awkwardBarPercent) {
         getTransform().position.y = startY + HEIGHT * awkwardBarPercent;
-        System.out.println();
     }
 }

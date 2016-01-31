@@ -3,14 +3,18 @@ package com.agmcleod.ritual_of_conversation.screens;
 import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.SoundManager;
 import com.agmcleod.ritual_of_conversation.actors.*;
+import com.agmcleod.ritual_of_conversation.components.InstructionState;
 import com.agmcleod.ritual_of_conversation.entities.AwkwardBar;
+import com.agmcleod.ritual_of_conversation.entities.Instructions;
 import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
 import com.agmcleod.ritual_of_conversation.entities.Player;
 import com.agmcleod.ritual_of_conversation.systems.DialogueSystem;
+import com.agmcleod.ritual_of_conversation.systems.InstructionSystem;
 import com.agmcleod.ritual_of_conversation.systems.MovementSystem;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -27,11 +31,18 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 public class PlayScreen implements Screen {
     private TextureAtlas atlas;
     private BitmapFont dialogueFont;
+    private DialogueSystem dialogueSystem;
     private Engine engine;
     private float fadeTimer;
     private TransitionCallback fadeInCallback;
     private TransitionCallback fadeOutCallback;
     private RitualOfConversation game;
+    private BitmapFont instructionsFont;
+    private InstructionSystem instructionSystem;
+    private boolean instructionAwkwardnessBarQueued;
+    private boolean instructionCollisionChoiceQueued;
+    private MovementSystem movementSystem;
+    private Music music;
     private BitmapFont npcFont;
     private NpcCharacterActor npcCharacterActor;
     private NpcTextActor npcTextActor;
@@ -53,34 +64,44 @@ public class PlayScreen implements Screen {
         atlas = new TextureAtlas(Gdx.files.internal("atlas.txt"));
         dialogueFont = new BitmapFont(Gdx.files.internal("munro24.fnt"));
         npcFont = new BitmapFont(Gdx.files.internal("munro24white.fnt"));
+        instructionsFont = new BitmapFont(Gdx.files.internal("munro40white.fnt"));
         shapeRenderer = new ShapeRenderer();
         Gdx.input.setInputProcessor(stage);
 
         ObjectMap<String, Sound> sounds = SoundManager.sounds;
         sounds.put("blip", Gdx.audio.newSound(Gdx.files.internal("blip.ogg")));
         sounds.put("chime", Gdx.audio.newSound(Gdx.files.internal("chime.ogg")));
+        sounds.put("chimegood", Gdx.audio.newSound(Gdx.files.internal("chimegood.ogg")));
+        sounds.put("chimebad", Gdx.audio.newSound(Gdx.files.internal("chimebad.ogg")));
 
         Player player = new Player();
         stage.addActor(new BackgroundActor(atlas));
         createPlayer(player);
         createDialogueSystem(player);
+        movementSystem = new MovementSystem();
+        music = Gdx.audio.newMusic(Gdx.files.internal("routineconversation.mp3"));
+        engine.addSystem(movementSystem);
+        createInstructionSystem();
 
-        engine.addSystem(new MovementSystem());
         fadeTimer = RitualOfConversation.FADE_TIMEOUT;
-
         fadeOutCallback = new TransitionCallback() {
             @Override
             public void callback() {
                 game.gotoEndScreen();
             }
         };
-
         fadeInCallback = new TransitionCallback() {
             @Override
             public void callback() {
                 transitioningIn = false;
             }
         };
+
+        instructionCollisionChoiceQueued = false;
+        instructionAwkwardnessBarQueued = false;
+
+        music.setLooping(true);
+        music.play();
     }
 
     public void bumpUiZIndex() {
@@ -93,13 +114,20 @@ public class PlayScreen implements Screen {
         npcTextActor = new NpcTextActor(atlas, npcFont, npcEntity);
         npcCharacterActor = new NpcCharacterActor(atlas, npcEntity);
         AwkwardBar awkwardBar = new AwkwardBar();
-        DialogueSystem dialogueSystem = new DialogueSystem(this, npcEntity, player, awkwardBar);
+        dialogueSystem = new DialogueSystem(this, npcEntity, player, awkwardBar);
 
         AwkwardBarActor awkwardBarActor = new AwkwardBarActor(atlas, awkwardBar);
         engine.addSystem(dialogueSystem);
         stage.addActor(awkwardBarActor);
         stage.addActor(npcTextActor);
         stage.addActor(npcCharacterActor);
+    }
+
+    public void createInstructionSystem() {
+        Instructions instructions = new Instructions();
+        instructionSystem = new InstructionSystem(instructions);
+        engine.addSystem(instructionSystem);
+        stage.addActor(new InstructionsActor(instructionsFont, instructions, shapeRenderer));
     }
 
     public void createPlayer(Player player) {
@@ -127,20 +155,55 @@ public class PlayScreen implements Screen {
     }
 
     public void gotoEndScreen() {
+        music.stop();
+        music.dispose();
         transitioningOut = true;
         fadeTimer = 0;
+    }
+
+    public void queueCollisionChoiceInstruction() {
+        instructionCollisionChoiceQueued = true;
+    }
+
+    public void queueAwkwardnessBarInstruction() {
+        instructionAwkwardnessBarQueued = true;
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (!transitioningOut && !transitioningIn) {
+
+        if (instructionSystem.isShowingInstruction()) {
+            if (movementSystem.checkProcessing()) {
+                movementSystem.setProcessing(false);
+            }
+            if (dialogueSystem.checkProcessing()) {
+                dialogueSystem.setProcessing(false);
+            }
+        } else {
+            if (!movementSystem.checkProcessing()) {
+                movementSystem.setProcessing(true);
+            }
+            if (!dialogueSystem.checkProcessing()) {
+                dialogueSystem.setProcessing(true);
+            }
+        }
+
+        if (!transitioningOut) {
             update(delta);
         }
 
         stage.act(delta);
         stage.draw();
+
+        if (instructionAwkwardnessBarQueued) {
+            instructionSystem.nextInstructionState(InstructionState.AWKWARDNESS_BAR);
+            instructionAwkwardnessBarQueued = false;
+        } else if (instructionCollisionChoiceQueued) {
+            instructionSystem.nextInstructionState(InstructionState.COLLISION_CHOICE);
+            instructionCollisionChoiceQueued = false;
+        }
 
         if (transitioningOut) {
             fadeTimer += delta;
@@ -180,6 +243,7 @@ public class PlayScreen implements Screen {
         atlas.dispose();
         dialogueFont.dispose();
         npcFont.dispose();
+        instructionsFont.dispose();
         ObjectMap.Entries<String, Sound> it = SoundManager.sounds.iterator();
         while (it.hasNext()) {
             ObjectMap.Entry<String, Sound> entry = it.next();
