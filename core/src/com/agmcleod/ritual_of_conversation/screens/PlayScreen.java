@@ -3,6 +3,7 @@ package com.agmcleod.ritual_of_conversation.screens;
 import com.agmcleod.ritual_of_conversation.RitualOfConversation;
 import com.agmcleod.ritual_of_conversation.SoundManager;
 import com.agmcleod.ritual_of_conversation.actors.BackgroundActor;
+import com.agmcleod.ritual_of_conversation.actors.NpcCharacterActor;
 import com.agmcleod.ritual_of_conversation.actors.NpcTextActor;
 import com.agmcleod.ritual_of_conversation.actors.PlayerActor;
 import com.agmcleod.ritual_of_conversation.entities.NpcEntity;
@@ -85,10 +86,12 @@ public class PlayScreen implements Screen {
     public void createDialogueSystem(Player player) {
         NpcEntity npcEntity = new NpcEntity();
         NpcTextActor npcTextActor = new NpcTextActor(atlas, npcFont, npcEntity);
+        NpcCharacterActor npcCharacterActor = new NpcCharacterActor(atlas, npcEntity);
         DialogueSystem dialogueSystem = new DialogueSystem(this, npcEntity, npcTextActor, player);
         engine.addSystem(dialogueSystem);
 
         stage.addActor(npcTextActor);
+        stage.addActor(npcCharacterActor);
     }
 
     public void createPlayer(Player player) {
