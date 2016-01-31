@@ -10,5 +10,5 @@
     "-Xmx1G"
   ],
   "minimizejre": "soft",
-  "outdir": "RoutineConversation.app"
+  "outdir": "ritualofconversation/build/osx/RoutineConversation.app"
 }

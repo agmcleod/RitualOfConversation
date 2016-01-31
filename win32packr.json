@@ -10,5 +10,5 @@
     "-Xmx1G"
   ],
   "minimizejre": "soft",
-  "outdir": "routineconversation-win"
+  "outdir": "ritualofconversation/build/win"
 }

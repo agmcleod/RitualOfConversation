@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -19,10 +20,12 @@ public class StartScreen implements Screen, InputProcessor {
     private TextureAtlas atlas;
     private TextureAtlas.AtlasRegion background;
     private SpriteBatch batch;
+    private Texture controls;
     private TransitionCallback fadeOutCallback;
     private float fadeTimer;
     private Music music;
     private boolean transitioningOut;
+    private boolean showingInstructions;
     private ShapeRenderer shapeRenderer;
     public StartScreen(final RitualOfConversation game) {
         this.game = game;
@@ -34,12 +37,11 @@ public class StartScreen implements Screen, InputProcessor {
         fadeOutCallback = new TransitionCallback() {
             @Override
             public void callback() {
-                music.stop();
-                music.dispose();
-                game.gotoPlayScreen();
+                gotoPlayScreen();
             }
         };
         shapeRenderer = new ShapeRenderer();
+        showingInstructions = false;
     }
 
     @Override
@@ -48,6 +50,7 @@ public class StartScreen implements Screen, InputProcessor {
         music.setLooping(true);
         music.play();
         Gdx.input.setInputProcessor(this);
+        controls = new Texture(Gdx.files.internal("controls.png"));
     }
 
     @Override
@@ -55,12 +58,30 @@ public class StartScreen implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        TextureRegionDrawer.drawRegionForBatch(batch, background, 0, 0, RitualOfConversation.GAME_WIDTH, RitualOfConversation.GAME_HEIGHT);
+        if (showingInstructions) {
+            batch.draw(controls, 0, 0);
+        } else {
+            TextureRegionDrawer.drawRegionForBatch(batch, background, 0, 0, RitualOfConversation.GAME_WIDTH, RitualOfConversation.GAME_HEIGHT);
+        }
         batch.end();
 
         if (transitioningOut) {
             fadeTimer += delta;
             game.drawWhiteTransparentSquare(shapeRenderer, fadeTimer / RitualOfConversation.FADE_TIMEOUT, fadeOutCallback);
+        }
+    }
+
+    public void gotoPlayScreen() {
+        music.stop();
+        music.dispose();
+        game.gotoPlayScreen();
+    }
+
+    public void nextStep() {
+        if (showingInstructions) {
+            transitioningOut = true;
+        } else {
+            showingInstructions = true;
         }
     }
 
@@ -88,6 +109,7 @@ public class StartScreen implements Screen, InputProcessor {
     public void dispose() {
         atlas.dispose();
         batch.dispose();
+        controls.dispose();
         shapeRenderer.dispose();
     }
 
@@ -98,7 +120,7 @@ public class StartScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        transitioningOut = true;
+        nextStep();
         return false;
     }
 
@@ -114,7 +136,7 @@ public class StartScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        transitioningOut = true;
+        nextStep();
         return false;
     }
 
